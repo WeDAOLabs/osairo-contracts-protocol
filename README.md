@@ -76,7 +76,7 @@ Website: [Osairo world](https://land.osairo.xyz){:target="_blank"}
 
 Require:
 
-- [pnpm](https://pnpm.io/){:target="_blank"}
+<a href="https://pnpm.io/" target="_blank" style="color: blue;">pnpm</a>
 
 Install dependencies
 
