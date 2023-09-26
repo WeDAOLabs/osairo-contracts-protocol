@@ -32,7 +32,7 @@ Place, mine, construct, collaborate, compete — in **Osairo** , every decision 
 
 In the birth of Osairo, we pioneered an entirely new game development paradigm – one where we collaborate with the community to collectively shape the Osairo world. We discarded the traditional concept of project ownership. From the very inception of Osairo's creative spark, we entrusted its design and decision-making power to the community. Every aspect of the product, from design, development, testing, to release and gameplay, is **community-driven**. The entire journey, from development to online release, is an integral part of the gameplay. We truly make Osairo an entity within the decentralized autonomous world from the moment of its creative birth.
 
-<h3>Osairo's world is enigmatic and uncharted, and we hope that within the exploration of our intrepid adventurers, we'll unearth unparalleled treasures!</h3>
+**Osairo's world is enigmatic and uncharted, and we hope that within the exploration of our intrepid adventurers, we'll unearth unparalleled treasures!**
 
 ### Community Roles
 
