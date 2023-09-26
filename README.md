@@ -20,7 +20,7 @@ Place, mine, construct, collaborate, compete — in **Osairo** , every decision 
 
 ## Documentation and demos
 
-[White Paper](https://land.osairo.xyz/ba99e5663e1347eda42d630419974ad5?v=138b191ccdd74e59aba8a653ba3dbd0e)
+[White Paper](https://land.osairo.xyz/ba99e5663e1347eda42d630419974ad5?v=138b191ccdd74e59aba8a653ba3dbd0e){:target="_blank"}
 
 ### Preview Demo
 
@@ -58,11 +58,11 @@ In the Osairo community, we offer various roles to match your interests and skil
 
 To kickstart your Osairo journey, please contract us with the following resources:
 
-Discord: [ Osairo Beach](https://discord.gg/ExzBwU3hTz)
+Discord: [ Osairo Beach](https://discord.gg/ExzBwU3hTz){:target="_blank"}
 
-Twitter: [   Osairo island](https://twitter.com/osairoisland)
+Twitter: [   Osairo island](https://twitter.com/osairoisland){:target="_blank"}
 
-Website: [Osairo world](https://land.osairo.xyz)
+Website: [Osairo world](https://land.osairo.xyz){:target="_blank"}
 
 ## Supporters
 
@@ -76,7 +76,7 @@ Website: [Osairo world](https://land.osairo.xyz)
 
 Require:
 
-- [pnpm](https://pnpm.io/)
+- [pnpm](https://pnpm.io/){:target="_blank"}
 
 Install dependencies
 
