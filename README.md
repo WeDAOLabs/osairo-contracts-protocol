@@ -42,15 +42,21 @@ In the Osairo community, we offer various roles to match your interests and skil
 
 2. 👨‍💼 **Trailblazer (Coder)**: You're the coding adventurer of Osairo, responsible for building smart contracts, implementing game mechanics, and providing new experiences for adventurers.
 
-3. 🎨 **Visionary (Product Designer)**: As a visionary, you'll be involved in the creative and design aspects of the game, devising new game elements to enrich and enhance Osairo.
+3. 📝 **Visionary (Product Designer)**: As a visionary, you'll be involved in the creative and design aspects of the game, devising new game elements to enrich and enhance Osairo.
 
 4. 🎨 **Visual Wizard (UI/UX Expert)**: You'll be tasked with designing Osairo's user interface, ensuring players have an enjoyable gaming experience.
 
-5. 🎵 **Maestro (Musician)**: In Osairo, music is an essential part. As a musician, you'll compose original music to add more fun and emotion to the game.
+5. 🌐 **World Pathfinder**: As game operations masters, you play a pivotal role in maintaining the vibrant and immersive experience for adventurers. You handle in-game events, user support, and ensure the Osairo universe remains fresh and engaging.
+
+6. 🎵 **Maestro (Musician)**: In Osairo, music is an essential part. As a musician, you'll compose original music to add more fun and emotion to the game.
+
+### Details
+
+- [Contribution Guidelines](./CONTRIBUTING.md)
 
 ### 🌟 Join us! Embark on the journey of adventure.
 
-To kickstart your Osairo journey, please check out the following resources:
+To kickstart your Osairo journey, please contract us with the following resources:
 
 Discord: [ Osairo Beach](https://discord.gg/ExzBwU3hTz)
 
