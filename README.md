@@ -8,6 +8,7 @@
 </p>
 <img src="https://land.osairo.xyz/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff33ed8ee-c478-451e-9496-b831828ef16d%2F2e94f6bb-6fb5-470c-89f6-72e433b22b0a%2Funnamed.webp?table=block&id=3ed91616-9c56-4b97-826f-1c10e83598e2&spaceId=f33ed8ee-c478-451e-9496-b831828ef16d&width=2000&userId=&cache=v2" width="900">
 </div>
+<br/>
 
 **Osairo** is a Fully-On-Chain Game. Combining island management, play fun idle mining games and earn **$OIT.**
 
@@ -29,9 +30,9 @@ Place, mine, construct, collaborate, compete — in **Osairo** , every decision 
 
 ### How Can You Contribute?
 
-In the birth of **Osairo**, we pioneered an entirely new game development paradigm – one where we collaborate with the community to collectively shape the Osairo world. We discarded the traditional concept of project ownership. From the very inception of Osairo's creative spark, we entrusted its design and decision-making power to the community. Every aspect of the product, from design, development, testing, to release and gameplay, is **community-driven**. The entire journey, from development to online release, is an integral part of the gameplay. We truly make Osairo an entity within the decentralized autonomous world from the moment of its creative birth. 
+In the birth of Osairo, we pioneered an entirely new game development paradigm – one where we collaborate with the community to collectively shape the Osairo world. We discarded the traditional concept of project ownership. From the very inception of Osairo's creative spark, we entrusted its design and decision-making power to the community. Every aspect of the product, from design, development, testing, to release and gameplay, is **community-driven**. The entire journey, from development to online release, is an integral part of the gameplay. We truly make Osairo an entity within the decentralized autonomous world from the moment of its creative birth.
 
-Osairo's world is enigmatic and uncharted, and we hope that within the exploration of our intrepid adventurers, we'll unearth unparalleled treasures!
+<h3>Osairo's world is enigmatic and uncharted, and we hope that within the exploration of our intrepid adventurers, we'll unearth unparalleled treasures!</h3>
 
 ### Community Roles
 
@@ -51,9 +52,9 @@ In the Osairo community, we offer various roles to match your interests and skil
 
 To kickstart your Osairo journey, please check out the following resources:
 
-Discord:  [Osairo Beach](https://discord.gg/ExzBwU3hTz)
+Discord: [ Osairo Beach](https://discord.gg/ExzBwU3hTz)
 
-Twitter:    [Osairo island](https://twitter.com/osairoisland)
+Twitter: [   Osairo island](https://twitter.com/osairoisland)
 
 Website: [Osairo world](https://land.osairo.xyz)
 
