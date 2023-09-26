@@ -19,10 +19,12 @@ Place, mine, construct, collaborate, compete — in **Osairo** , every decision 
 ### 👥 Join us! Embark on the journey of adventure.
 
 Discord: [Osairo Beach](https://discord.gg/ExzBwU3hTz)
+
 Twitter: [Osairo island](https://twitter.com/osairoisland)
+
 Website: [Osairo world](https://land.osairo.xyz)
 
-### How to run
+## How to run
 
 ### Run locally
 
