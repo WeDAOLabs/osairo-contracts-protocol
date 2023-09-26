@@ -1,6 +1,11 @@
 <div align="center">
-<img src="https://land.osairo.xyz/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff33ed8ee-c478-451e-9496-b831828ef16d%2Fe87379c8-8260-4ee1-95b0-aebc3a3767a2%2Fimage.png?table=block&id=3ed91616-9c56-4b97-826f-1c10e83598e2&spaceId=f33ed8ee-c478-451e-9496-b831828ef16d&width=250&userId=&cache=v2" width="250">
 <h1>Osairo🏝️</h1>
+<p align="center">
+    <a href="./LICENSE" target="_blank">
+        <img alt="License: AGPL-3.0" src="https://img.shields.io/badge/License-AGPL_3.0-green.svg">
+    </a>
+</p>
+<img src="https://land.osairo.xyz/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff33ed8ee-c478-451e-9496-b831828ef16d%2F2e94f6bb-6fb5-470c-89f6-72e433b22b0a%2Funnamed.webp?table=block&id=3ed91616-9c56-4b97-826f-1c10e83598e2&spaceId=f33ed8ee-c478-451e-9496-b831828ef16d&width=2000&userId=&cache=v2" width="900">
 <h3>An infinite, unstoppable, decentralized Autonomous  World!</h3>
 </div>
 
@@ -33,7 +38,7 @@ Website: [Osairo world](https://land.osairo.xyz)
 ## Supporters
 
 <picture>
-  <a target="_blank" src="https://twitter.com/WeDAO_Labs"><img alt="WeDAOLabs" src="https://app.happiairdrop.xyz/wedao_logo.png" width="auto" height="80"></a>
+  <a target="_blank" href="https://twitter.com/WeDAO_Labs"><img alt="WeDAOLabs" src="https://app.happiairdrop.xyz/wedao_logo.png" width="auto" height="80"></a>
 </picture>
 
 ## 🚀 Getting Started
@@ -55,7 +60,3 @@ Run contract test cases
 ```bash
 pnpm run test
 ```
-
-## License
-
-This project is open-source and licensed under [AGPL-3.0](./LICENSE)
