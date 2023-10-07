@@ -84,6 +84,12 @@ Install dependencies
 pnpm install
 ```
 
+config default .env
+
+```bash
+cp .env.example .env
+```
+
 Run contract test cases
 
 ```bash
