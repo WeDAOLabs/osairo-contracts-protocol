@@ -11,7 +11,9 @@ describe("Greeter", function () {
   );
 
   beforeEach(async () => {
+    console.log("111", "2222");
     const Greeter = await ethers.getContractFactory("Greeter");
+    console.log("111", "333");
     contract = await upgrades.deployProxy(Greeter, ["Hello, world!"]);
     await contract.deployed();
   });
