@@ -6,7 +6,7 @@
         <img alt="License: AGPL-3.0" src="https://img.shields.io/badge/License-AGPL_3.0-green.svg">
     </a>
 </p>
-<img src="https://land.osairo.xyz/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff33ed8ee-c478-451e-9496-b831828ef16d%2F2e94f6bb-6fb5-470c-89f6-72e433b22b0a%2Funnamed.webp?table=block&id=3ed91616-9c56-4b97-826f-1c10e83598e2&spaceId=f33ed8ee-c478-451e-9496-b831828ef16d&width=2000&userId=&cache=v2" width="900">
+<img src="https://app.happiairdrop.xyz/osairo-island.png" width="900">
 </div>
 <br/>
 
