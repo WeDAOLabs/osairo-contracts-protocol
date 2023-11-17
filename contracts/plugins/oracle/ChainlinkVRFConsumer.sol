@@ -8,7 +8,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/vrf/VRFConsumerBaseV2.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract RandomOracleConsumer is VRFConsumerBaseV2, Ownable {
+contract ChainlinkVRFConsumer is VRFConsumerBaseV2, Ownable {
     VRFCoordinatorV2Interface immutable COORDINATOR;
 
     // Your subscription ID.
