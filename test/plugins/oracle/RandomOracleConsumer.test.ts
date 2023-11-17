@@ -52,7 +52,7 @@ describe("ChainlinkVRFConsumer", function () {
     console.log("s_requestId", s_requestId);
   });
 
-  it.skip("ChainlinkVRFConsumer:Transfer ownership", async function () {
+  it("ChainlinkVRFConsumer:Transfer ownership", async function () {
     let s_randomWords = await contract.getRandomWords(1);
     expect(s_randomWords).to.be.empty;
     const [owner, addr1] = await ethers.getSigners();
@@ -61,7 +61,7 @@ describe("ChainlinkVRFConsumer", function () {
       .withArgs(owner.address, addr1.address);
 
     await expect(contract.getRandomWords(1)).to.be.revertedWith(
-      "call revert exception"
+      "Ownable: caller is not the owner"
     );
     s_randomWords = contract.connect(addr1).getRandomWords(1);
     expect(s_randomWords).to.be.empty;
