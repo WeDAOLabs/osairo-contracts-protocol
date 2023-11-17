@@ -67,12 +67,9 @@ describe("ChainlinkVRFConsumer", function () {
     expect(s_randomWords).to.be.empty;
   });
 
-  it.skip("ChainlinkVRFConsumer:Request random number", async function () {
-    const signer = new ethers.Wallet(
-      PRIVATE_KEY_RANDOM_CONSUMER_CONTRACT_CALLER as string,
-      provider
-    );
-    contract = ContractFactory.attach(contractAddress).connect(signer);
+  it("ChainlinkVRFConsumer:Request random number", async function () {
+    const [owner, addr1] = await ethers.getSigners();
+    contract = contract.connect(owner);
 
     let s_requestId: BigNumber = await contract.s_requestId();
     if (s_requestId.eq(0)) {
