@@ -29,6 +29,7 @@ contract ChainlinkVRFConsumer is VRFConsumerBaseV2, Ownable {
     // this limit based on the network that you select, the size of the request,
     // and the processing of the callback request in the fulfillRandomWords()
     // function.
+    // TODO need set when request words
     uint32 constant CALLBACK_GAS_LIMIT = 26000 * NUM_WORDS;
 
     // The default is 3, but you can set this higher.

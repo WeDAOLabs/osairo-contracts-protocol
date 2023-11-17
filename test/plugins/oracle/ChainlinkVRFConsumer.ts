@@ -1,17 +1,10 @@
 import { expect } from "chai";
-import { BigNumber, Contract, ContractFactory } from "ethers";
+import { BigNumber, Contract } from "ethers";
 import { ethers } from "hardhat";
 
-// 3.指定合约的合约地址
-const contractAddress = "0x27e69a1acd722A0aA02F4bf611Ea797bFC4Ba3Ee";
-// 4.指定合约调用地址和默认调用私钥
-const { PRIVATE_KEY_RANDOM_CONSUMER_CONTRACT_CALLER } = process.env;
-
 describe("ChainlinkVRFConsumer", function () {
-  let ContractFactory: ContractFactory;
   let mockCoordinatorContract: Contract;
   let contract: Contract;
-  let provider: any;
 
   beforeEach(async function () {
     // deploy mock coordinate contract
@@ -56,7 +49,7 @@ describe("ChainlinkVRFConsumer", function () {
     expect(contract instanceof Contract).to.be.true;
   });
 
-  it.skip("ChainlinkVRFConsumer:Test", async function () {
+  it("ChainlinkVRFConsumer:Test", async function () {
     const s_randomWords = await contract.getRandomWords(1);
     console.log("s_randomWords", s_randomWords);
     expect(s_randomWords).to.be.empty;
@@ -64,7 +57,7 @@ describe("ChainlinkVRFConsumer", function () {
     console.log("s_requestId", s_requestId);
   });
 
-  it.skip("ChainlinkVRFConsumer:Transfer ownership", async function () {
+  it("ChainlinkVRFConsumer:Transfer ownership", async function () {
     let s_randomWords = await contract.getRandomWords(1);
     expect(s_randomWords).to.be.empty;
     const [owner, addr1] = await ethers.getSigners();
@@ -110,20 +103,28 @@ describe("ChainlinkVRFConsumer", function () {
     console.log("s_randomWords", s_randomWords);
   });
 
-  it.skip("ChainlinkVRFConsumer:Request random number emit", async function () {
-    const signer = new ethers.Wallet(
-      PRIVATE_KEY_RANDOM_CONSUMER_CONTRACT_CALLER as string,
-      provider
-    );
-    contract = ContractFactory.attach(contractAddress).connect(signer);
-    const balanceBefore = await signer.getBalance();
-    await expect(
-      contract.requestRandomWords({
-        gasLimit: 300000,
-      })
-    ).to.emit(contract, "RequestComplete");
+  it("ChainlinkVRFConsumer:Request random number gas", async function () {
+    const [owner] = await ethers.getSigners();
+    const balanceBefore = await owner.getBalance();
 
-    const balanceAfter = await signer.getBalance();
+    contract = contract.connect(owner);
+
+    let s_requestId: BigNumber = await contract.s_requestId();
+    if (s_requestId.eq(0)) {
+      await contract.requestRandomWords();
+      s_requestId = await contract.s_requestId();
+    }
+
+    let s_randomWords = await contract.getRandomWords(s_requestId);
+
+    expect(s_randomWords).to.be.empty;
+
+    await mockCoordinatorContract.fulfillRandomWords(
+      s_requestId,
+      contract.address
+    );
+
+    const balanceAfter = await owner.getBalance();
 
     console.log(
       `gas fee:`,
