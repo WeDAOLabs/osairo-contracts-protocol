@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import exp from "constants";
 import { BigNumber, Contract, ContractFactory } from "ethers";
-import { ethers, upgrades } from "hardhat";
+import { ethers } from "hardhat";
 
 // 3.指定合约的合约地址
 const contractAddress = "0x27e69a1acd722A0aA02F4bf611Ea797bFC4Ba3Ee";
@@ -29,11 +29,11 @@ describe("ChainlinkVRFConsumer", function () {
     const ChainlinkVRFConsumer = await ethers.getContractFactory(
       "ChainlinkVRFConsumer"
     );
-    contract = await upgrades.deployProxy(ChainlinkVRFConsumer, [
+    contract = await ChainlinkVRFConsumer.deploy(
       subscriptionId,
       mockCoordinatorContract.address,
-      m_keyHash,
-    ]);
+      m_keyHash
+    );
     await contract.deployed();
   });
 
@@ -41,8 +41,7 @@ describe("ChainlinkVRFConsumer", function () {
     expect(mockCoordinatorContract).not.null;
     expect(mockCoordinatorContract instanceof Contract).to.be.true;
     expect(contract).not.null;
-
-    console.log(contract);
+    expect(contract instanceof Contract).to.be.true;
   });
 
   it.skip("ChainlinkVRFConsumer:Test", async function () {
