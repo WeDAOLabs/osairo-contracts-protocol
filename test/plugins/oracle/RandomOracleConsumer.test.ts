@@ -44,7 +44,7 @@ describe("ChainlinkVRFConsumer", function () {
     expect(contract instanceof Contract).to.be.true;
   });
 
-  it.skip("ChainlinkVRFConsumer:Test", async function () {
+  it("ChainlinkVRFConsumer:Test", async function () {
     const s_randomWords = await contract.getRandomWords(1);
     console.log("s_randomWords", s_randomWords);
     expect(s_randomWords).to.be.empty;
