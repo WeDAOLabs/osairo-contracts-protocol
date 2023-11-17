@@ -19,22 +19,23 @@ contract ChainlinkVRFConsumer is VRFConsumerBaseV2, Ownable {
     // see https://docs.chain.link/docs/vrf-contracts/#configurations
     bytes32 immutable s_keyHash;
 
+    // For this example, retrieve 2 random values in one request.
+    // Cannot exceed VRFCoordinatorV2.MAX_NUM_WORDS.
+    uint32 constant NUM_WORDS = 10;
+
     // Depends on the number of requested values that you want sent to the
     // fulfillRandomWords() function. Storing each word costs about 20,000 gas,
     // so 100,000 is a safe default for this example contract. Test and adjust
     // this limit based on the network that you select, the size of the request,
     // and the processing of the callback request in the fulfillRandomWords()
     // function.
-    uint32 constant CALLBACK_GAS_LIMIT = 100000;
+    uint32 constant CALLBACK_GAS_LIMIT = 26000 * NUM_WORDS;
 
     // The default is 3, but you can set this higher.
     uint16 constant REQUEST_CONFIRMATIONS = 3;
 
-    // For this example, retrieve 2 random values in one request.
-    // Cannot exceed VRFCoordinatorV2.MAX_NUM_WORDS.
-    uint32 constant NUM_WORDS = 10;
-
     mapping(uint256 => uint256[]) s_requestIdToRandomWords;
+
     uint256 public s_requestId;
 
     event ReturnedRandomness(uint256[] randomWords);

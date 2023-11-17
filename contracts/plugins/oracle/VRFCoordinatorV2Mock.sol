@@ -407,4 +407,8 @@ contract VRFCoordinatorV2Mock is VRFCoordinatorV2Interface, ConfirmedOwner {
     ) public pure override returns (bool) {
         revert("not implemented");
     }
+
+    function getCurrentSubId() external view onlyOwner returns (uint64) {
+        return s_currentSubId;
+    }
 }
