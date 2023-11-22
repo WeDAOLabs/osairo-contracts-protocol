@@ -58,14 +58,17 @@ describe("acceptVRF_test.test", function () {
     contract = contract.connect(owner);
 
     let s_requestId: BigNumber = await contract.requestRandomWords();
-
     await expect(contract.requestRandomWords()).to.be.emit(
       contract,
       "RequestSent"
     );
-
     await expect(acceptContract.connect(owner).getValue()).revertedWith(
       "Only callable by owner"
-    );
+    )
+    /*
+    let data = await contract.getRequestStatus(s_requestId);
+    let s_randomWords: BigNumber = data[1];
+    ;
+    console.log("s_randomWords", s_randomWords);*/
   });
 });

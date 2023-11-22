@@ -73,7 +73,6 @@ contract VRFv2Consumer is VRFConsumerBaseV2, ConfirmedOwner {
     // Assumes the subscription is funded sufficiently.
     function requestRandomWords()
         external
-        onlyOwner
         returns (uint256 requestId)
     {
         // Will revert if subscription is not set and funded.
