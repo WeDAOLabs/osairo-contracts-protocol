@@ -54,7 +54,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 //   solidity: '0.8.4',
 // };
 const config: HardhatUserConfig = {
-  solidity: "0.8.17",
+  solidity: "0.8.21",
   networks: {
     hardhat: {
       chainId: 1337,
