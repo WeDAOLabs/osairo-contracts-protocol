@@ -32,6 +32,8 @@ contract OsairoLandTile is
 
     uint256 private _currentTokenId;
 
+    uint public constant totalTileCount = 101 * 101;
+
     string private constant _baseTokenURI =
         "https://testnet.osairo.xyz/land_nft/osairo_land_tile_";
 
@@ -57,7 +59,7 @@ contract OsairoLandTile is
 
     function tokenURI(
         uint256 tokenId
-    ) public view override returns (string memory) {
+    ) public pure override returns (string memory) {
         require(tokenId >= 1, "Token ID must be greater than 0");
         return
             string(
@@ -79,11 +81,17 @@ contract OsairoLandTile is
 
     function mintLandTile(address to) public onlyRole(MINTER_ROLE) {
         uint256 _tokenId = _tokenIdTracker.current() + 1;
-        _tokenIdTracker.increment();
 
         _safeMint(to, _tokenId);
 
+        _tokenIdTracker.increment();
+
         emit LandTileMint(address(0), to, _tokenId);
+    }
+
+    function _mint(address to, uint256 tokenId) internal override {
+        require(totalSupply() < totalTileCount, "There's none tile left.");
+        super._mint(to, tokenId);
     }
 
     function _beforeTokenTransfer(

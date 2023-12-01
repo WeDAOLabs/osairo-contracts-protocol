@@ -53,5 +53,7 @@ describe("OsairoLandTile", async () => {
     await expect(contract.tokenURI(0)).to.be.revertedWith(
       "Token ID must be greater than 0"
     );
+
+    expect(await contract.totalSupply()).to.equal(1);
   });
 });
