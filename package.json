@@ -52,5 +52,10 @@
   },
   "dependencies": {
     "@chainlink/contracts": "^0.8.0"
+  },
+  "description": "<div align=\"center\">\r <h1>Osairo🏝️</h1>\r <h3>An infinite, unstoppable, decentralized Autonomous  World!</h3>\r <p align=\"center\">\r     <a href=\"./LICENSE\" target=\"_blank\">\r         <img alt=\"License: AGPL-3.0\" src=\"https://img.shields.io/badge/License-AGPL_3.0-green.svg\">\r     </a>\r </p>\r <img src=\"https://app.happiairdrop.xyz/osairo-island.png\" width=\"900\">\r </div>\r <br/>",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
   }
 }
