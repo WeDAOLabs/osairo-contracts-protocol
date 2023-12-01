@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.21;
 
 /// @dev the ERC-165 identifier for this interface is `0x400a0398`
 interface IERC6551Account {
