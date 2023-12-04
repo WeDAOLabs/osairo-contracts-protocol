@@ -124,6 +124,7 @@ describe("ChainlinkVRFConsumer", function () {
 
     expect(s_randomWords).to.be.empty;
 
+    // fill client async
     await mockCoordinatorContract.fulfillRandomWords(
       s_requestId,
       contract.address
