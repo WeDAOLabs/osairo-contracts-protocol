@@ -4,6 +4,8 @@ import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
+import "@openzeppelin/contracts/utils/Base64.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract Greeter is
     Initializable,
@@ -14,6 +16,8 @@ contract Greeter is
     string private greeting;
 
     event GreetingChanged(address from, string _greeting);
+
+    event BuildTokenUri(string tokenUri);
 
     // the role that can pause the contract
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
@@ -61,5 +65,47 @@ contract Greeter is
         greeting = _greeting;
 
         emit GreetingChanged(msg.sender, _greeting);
+    }
+
+    function updateFillColor() internal pure returns (string memory) {
+        return string(abi.encodePacked("#", "1", "3", "5", "2", "4", "0"));
+    }
+
+    function tokenURI() public returns (string memory) {
+        string memory fillColor = updateFillColor();
+        // Create SVG rectangle with color
+        string memory imgSVG = string(
+            abi.encodePacked(
+                "<svg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='500' height='500' preserveAspectRatio='none' viewBox='0 0 500 500'> <rect width='100%' height='100%' fill='",
+                fillColor,
+                "' />",
+                "<text x='50%' y='50%' font-size='128' dominant-baseline='middle' text-anchor='middle'>",
+                unicode"😀",
+                "</text>",
+                "</svg>"
+            )
+        );
+
+        string memory json = Base64.encode(
+            bytes(
+                string(
+                    abi.encodePacked(
+                        '{"name": "ETH Watching SVG",',
+                        '"description": "An Automated ETH tracking SVG",',
+                        '"image": "data:image/svg+xml;base64,',
+                        Base64.encode(bytes(imgSVG)),
+                        '"}'
+                    )
+                )
+            )
+        );
+
+        // Create token URI
+        string memory finalTokenURI = string(
+            abi.encodePacked("data:application/json;base64,", json)
+        );
+
+        emit BuildTokenUri(finalTokenURI);
+        return finalTokenURI;
     }
 }

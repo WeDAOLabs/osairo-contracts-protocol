@@ -58,4 +58,18 @@ describe("Greeter", function () {
       "Pausable: paused"
     );
   });
+
+  it("Greeter:tokenURI", async () => {
+    const tx = await contract.tokenURI();
+    const receipt = await tx.wait();
+
+    const event = receipt.events[0];
+
+    const [tokenUri] = ethers.utils.defaultAbiCoder.decode(
+      ["string"],
+      event.data
+    );
+
+    console.log("tokenUri", tokenUri);
+  });
 });
