@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import exp from "constants";
 import { BigNumber, Contract } from "ethers";
 import { ethers } from "hardhat";
 
@@ -11,7 +12,7 @@ describe("OsairoLandTileDynamicNFT", function () {
     const VRFCoordinatorV2Mock = await ethers.getContractFactory(
       "VRFCoordinatorV2Mock"
     );
-    mockCoordinatorContract = await VRFCoordinatorV2Mock.deploy(1000, 500);
+    mockCoordinatorContract = await VRFCoordinatorV2Mock.deploy(1000, 1);
     await mockCoordinatorContract.deployed();
 
     const [owner] = await ethers.getSigners();
@@ -49,10 +50,71 @@ describe("OsairoLandTileDynamicNFT", function () {
     expect(await contract.symbol()).to.equal("OLT");
   });
 
-  it("ChainlinkVRFConsumer:contract valid", async () => {
+  it("OsairoLandTileDynamicNFT:contract valid", async () => {
     expect(mockCoordinatorContract).not.null;
     expect(mockCoordinatorContract instanceof Contract).to.be.true;
     expect(contract).not.null;
     expect(contract instanceof Contract).to.be.true;
+  });
+
+  it("OsairoLandTileDynamicNFT:mint", async function () {
+    const [owner, addr1] = await ethers.getSigners();
+    contract = contract.connect(owner);
+
+    const tx = await contract.mintLandTile(addr1.address);
+    const receipt = await tx.wait();
+    const event = receipt.events[0];
+
+    const [s_requestId] = ethers.utils.defaultAbiCoder.decode(
+      ["uint256"],
+      event.data
+    );
+
+    expect(s_requestId).not.to.be.empty;
+
+    const tokenId = 1;
+
+    await expect(
+      mockCoordinatorContract.fulfillRandomWords(s_requestId, contract.address)
+    )
+      .to.emit(contract, "LandTileMinted")
+      .withArgs(ethers.constants.AddressZero, addr1.address, tokenId)
+      .to.emit(mockCoordinatorContract, "RandomWordsFulfilled")
+      .withArgs(s_requestId, s_requestId, 292397, true);
+
+    let tileType = 0;
+    for (let i = 0; i < 10; i++) {
+      const property = await contract.randomProperty(tokenId, i);
+      if (i === 0) {
+        tileType = property.mod(BigNumber.from("9"));
+      }
+      console.log(`property ${i}:`, property);
+    }
+
+    expect(await contract.balanceOf(addr1.address)).to.equal(tokenId);
+    const tokenUri = await contract.tokenURI(tokenId);
+    expect(tokenUri).to.be.a("string");
+
+    const base64Data = tokenUri.split(",")[1];
+    let decodedData = null;
+    try {
+      const decodedBytes = ethers.utils.base64.decode(base64Data);
+      decodedData = JSON.parse(ethers.utils.toUtf8String(decodedBytes));
+    } catch (error) {
+      expect(false).to.be.true;
+    }
+
+    expect(decodedData).to.be.an("object");
+    expect(decodedData).to.have.property("name");
+    expect(decodedData)
+      .to.have.property("description")
+      .and.equal("One piece of Osairo island");
+    expect(decodedData)
+      .to.have.property("image")
+      .and.equal(
+        `https://testnet.osairo.xyz/land_nft/osairo_land_tile_${tileType}.png`
+      );
+
+    console.log(decodedData);
   });
 });

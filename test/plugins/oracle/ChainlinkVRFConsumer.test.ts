@@ -11,7 +11,7 @@ describe("ChainlinkVRFConsumer", function () {
     const VRFCoordinatorV2Mock = await ethers.getContractFactory(
       "VRFCoordinatorV2Mock"
     );
-    mockCoordinatorContract = await VRFCoordinatorV2Mock.deploy(1000, 500);
+    mockCoordinatorContract = await VRFCoordinatorV2Mock.deploy(1000, 100);
     await mockCoordinatorContract.deployed();
 
     const [owner] = await ethers.getSigners();

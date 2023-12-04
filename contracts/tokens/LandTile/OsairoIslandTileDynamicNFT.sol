@@ -34,10 +34,16 @@ contract OsairoLandTileDynamicNFT is
 
     Counters.Counter private _tokenIdTracker;
 
-    event LandTileMint(
+    event LandTileMinted(
         address indexed from,
         address indexed to,
         uint256 indexed tokenId
+    );
+
+    event StartToMintTile(
+        uint256 requestId,
+        address indexed to,
+        uint256 tokenId
     );
 
     VRFCoordinatorV2Interface immutable COORDINATOR;
@@ -66,9 +72,10 @@ contract OsairoLandTileDynamicNFT is
     // The default is 3, but you can set this higher.
     uint16 constant REQUEST_CONFIRMATIONS = 3;
 
-    mapping(uint256 => uint256[]) private _sTokenIdToRandomWords;
+    mapping(uint256 => uint256[]) _sTokenIdToRandomWords;
 
-    mapping(uint256 => address) private _sRequestIdToAddress;
+    mapping(uint256 => uint256) private _sRequestIdToTokenId;
+    mapping(uint256 => address) private _sRequestIdToMintTo;
 
     uint256 private _currentTokenId;
 
@@ -142,26 +149,37 @@ contract OsairoLandTileDynamicNFT is
         return requestId;
     }
 
-    function mintLandTile(address to) public onlyRole(MINTER_ROLE) {
+    function mintLandTile(
+        address to
+    ) public onlyRole(MINTER_ROLE) returns (uint256) {
         uint256 requestId = requestRandomWords(NUM_WORDS);
-        _sRequestIdToAddress[requestId] = to;
+
+        uint256 tokenId = _tokenIdTracker.current() + 1;
+
+        _safeMint(to, tokenId);
+
+        _tokenIdTracker.increment();
+
+        _sRequestIdToTokenId[requestId] = tokenId;
+
+        _sRequestIdToMintTo[requestId] = to;
+
+        emit StartToMintTile(requestId, to, tokenId);
+
+        return requestId;
     }
 
     function fulfillRandomWords(
         uint256 requestId,
         uint256[] memory randomWords
     ) internal override {
-        address to = _sRequestIdToAddress[requestId];
+        uint256 tokenId = _sRequestIdToTokenId[requestId];
 
-        uint256 _tokenId = _tokenIdTracker.current() + 1;
+        _sTokenIdToRandomWords[tokenId] = randomWords;
 
-        _safeMint(to, _tokenId);
+        address to = _sRequestIdToMintTo[requestId];
 
-        _sTokenIdToRandomWords[_tokenId] = randomWords;
-
-        _tokenIdTracker.increment();
-
-        emit LandTileMint(address(0), to, _tokenId);
+        emit LandTileMinted(address(0), to, tokenId);
     }
 
     function randomProperty(
