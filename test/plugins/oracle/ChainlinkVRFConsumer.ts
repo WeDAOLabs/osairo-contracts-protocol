@@ -61,13 +61,18 @@ describe("ChainlinkVRFConsumer", function () {
     let s_randomWords = await contract.getRandomWords(1);
     expect(s_randomWords).to.be.empty;
     const [owner, addr1] = await ethers.getSigners();
-    await expect(contract.transferOwnership(addr1.address))
-      .to.emit(contract, "OwnershipTransferred")
-      .withArgs(owner.address, addr1.address);
 
-    await expect(contract.getRandomWords(1)).to.be.revertedWith(
-      "Ownable: caller is not the owner"
+    const id = ethers.utils.id("USER_ROLE");
+
+    const revertedWith = `AccessControl: account ${ethers.utils
+      .getAddress(addr1.address)
+      .toLowerCase()} is missing role ${id}`;
+
+    await expect(contract.connect(addr1).getRandomWords(1)).to.be.revertedWith(
+      revertedWith
     );
+    await contract.grantRole(id, addr1.address);
+
     s_randomWords = contract.connect(addr1).getRandomWords(1);
     expect(s_randomWords).to.be.empty;
   });
@@ -96,7 +101,7 @@ describe("ChainlinkVRFConsumer", function () {
     )
       .to.emit(contract, "ReturnedRandomness")
       .to.emit(mockCoordinatorContract, "RandomWordsFulfilled")
-      .withArgs(s_requestId, s_requestId, 145926500, true);
+      .withArgs(s_requestId, s_requestId, 145960000, true);
 
     s_randomWords = await contract.getRandomWords(s_requestId);
     expect(s_randomWords).not.to.be.empty;

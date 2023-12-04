@@ -2,13 +2,13 @@
 // An example of a consumer contract that relies on a subscription for funding.
 pragma solidity ^0.8.21;
 
-import "hardhat/console.sol";
-
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/vrf/VRFConsumerBaseV2.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 
-contract ChainlinkVRFConsumer is VRFConsumerBaseV2, Ownable {
+contract ChainlinkVRFConsumer is VRFConsumerBaseV2, AccessControlEnumerable {
+    bytes32 public constant USER_ROLE = keccak256("USER_ROLE");
+
     VRFCoordinatorV2Interface immutable COORDINATOR;
 
     // Your subscription ID.
@@ -50,13 +50,16 @@ contract ChainlinkVRFConsumer is VRFConsumerBaseV2, Ownable {
         COORDINATOR = VRFCoordinatorV2Interface(vrfCoordinator);
         s_keyHash = keyHash;
         s_subscriptionId = subscriptionId;
+
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(USER_ROLE, msg.sender);
     }
 
     /*
      * @notice Requests randomness
      * Assumes the subscription is funded sufficiently; "Words" refers to unit of data in Computer Science
      */
-    function requestRandomWords() external onlyOwner {
+    function requestRandomWords() external onlyRole(USER_ROLE) {
         // Will revert if subscription is not set and funded.
         s_requestId = COORDINATOR.requestRandomWords(
             s_keyHash,
@@ -85,7 +88,7 @@ contract ChainlinkVRFConsumer is VRFConsumerBaseV2, Ownable {
 
     function getRandomWords(
         uint256 requestId
-    ) public view onlyOwner returns (uint256[] memory) {
+    ) public view onlyRole(USER_ROLE) returns (uint256[] memory) {
         return s_requestIdToRandomWords[requestId];
     }
 }
