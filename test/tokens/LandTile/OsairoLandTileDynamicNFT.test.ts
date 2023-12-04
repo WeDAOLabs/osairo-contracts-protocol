@@ -48,4 +48,11 @@ describe("OsairoLandTileDynamicNFT", function () {
     expect(await contract.name()).to.equal("OsairoLandTile");
     expect(await contract.symbol()).to.equal("OLT");
   });
+
+  it("ChainlinkVRFConsumer:contract valid", async () => {
+    expect(mockCoordinatorContract).not.null;
+    expect(mockCoordinatorContract instanceof Contract).to.be.true;
+    expect(contract).not.null;
+    expect(contract instanceof Contract).to.be.true;
+  });
 });
