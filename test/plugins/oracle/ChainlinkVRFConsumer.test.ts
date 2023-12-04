@@ -53,8 +53,6 @@ describe("ChainlinkVRFConsumer", function () {
     const s_randomWords = await contract.getRandomWords(1);
     console.log("s_randomWords", s_randomWords);
     expect(s_randomWords).to.be.empty;
-    const s_requestId = await contract.s_requestId();
-    console.log("s_requestId", s_requestId);
   });
 
   it("ChainlinkVRFConsumer:Transfer ownership", async function () {
@@ -81,17 +79,15 @@ describe("ChainlinkVRFConsumer", function () {
     const [owner, addr1] = await ethers.getSigners();
     contract = contract.connect(owner);
 
-    let s_requestId: BigNumber = await contract.s_requestId();
-    if (s_requestId.eq(0)) {
-      await expect(contract.requestRandomWords()).to.emit(
-        contract,
-        "RequestComplete"
-      );
-      s_requestId = await contract.s_requestId();
-    }
+    const tx = await contract.requestRandomWords(10);
+    const receipt = await tx.wait();
+    const event = receipt.events[0];
 
-    expect(s_requestId.eq(0)).to.be.false;
-    console.log("s_requestId valid", s_requestId);
+    const [s_requestId] = ethers.utils.defaultAbiCoder.decode(
+      ["uint256"],
+      event.data
+    );
+    expect(s_requestId).to.be.equal(BigNumber.from("1"));
     let s_randomWords = await contract.getRandomWords(s_requestId);
 
     expect(s_randomWords).to.be.empty;
@@ -101,7 +97,7 @@ describe("ChainlinkVRFConsumer", function () {
     )
       .to.emit(contract, "ReturnedRandomness")
       .to.emit(mockCoordinatorContract, "RandomWordsFulfilled")
-      .withArgs(s_requestId, s_requestId, 145960000, true);
+      .withArgs(s_requestId, s_requestId, 145948500, true);
 
     s_randomWords = await contract.getRandomWords(s_requestId);
     expect(s_randomWords).not.to.be.empty;
@@ -114,12 +110,14 @@ describe("ChainlinkVRFConsumer", function () {
 
     contract = contract.connect(owner);
 
-    let s_requestId: BigNumber = await contract.s_requestId();
-    if (s_requestId.eq(0)) {
-      await contract.requestRandomWords();
-      s_requestId = await contract.s_requestId();
-    }
+    const tx = await contract.requestRandomWords(10);
+    const receipt = await tx.wait();
+    const event = receipt.events[0];
 
+    const [s_requestId] = ethers.utils.defaultAbiCoder.decode(
+      ["uint256"],
+      event.data
+    );
     let s_randomWords = await contract.getRandomWords(s_requestId);
 
     expect(s_randomWords).to.be.empty;

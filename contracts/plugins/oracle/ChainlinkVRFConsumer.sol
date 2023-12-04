@@ -35,12 +35,10 @@ contract ChainlinkVRFConsumer is VRFConsumerBaseV2, AccessControlEnumerable {
     // The default is 3, but you can set this higher.
     uint16 constant REQUEST_CONFIRMATIONS = 3;
 
-    mapping(uint256 => uint256[]) s_requestIdToRandomWords;
+    mapping(uint256 => uint256[]) _sRequestIdToRandomWords;
 
-    uint256 public s_requestId;
-
+    event RequestVRFComplete(uint256 requestId);
     event ReturnedRandomness(uint256[] randomWords);
-    event RequestComplete(uint256 requestId);
 
     constructor(
         uint64 subscriptionId,
@@ -59,17 +57,26 @@ contract ChainlinkVRFConsumer is VRFConsumerBaseV2, AccessControlEnumerable {
      * @notice Requests randomness
      * Assumes the subscription is funded sufficiently; "Words" refers to unit of data in Computer Science
      */
-    function requestRandomWords() external onlyRole(USER_ROLE) {
+    function requestRandomWords(
+        uint32 numWords
+    ) external onlyRole(USER_ROLE) returns (uint256) {
+        require(
+            numWords > 0 && numWords <= NUM_WORDS,
+            "number words exceeds limit."
+        );
+
         // Will revert if subscription is not set and funded.
-        s_requestId = COORDINATOR.requestRandomWords(
+        uint256 requestId = COORDINATOR.requestRandomWords(
             s_keyHash,
             s_subscriptionId,
             REQUEST_CONFIRMATIONS,
             CALLBACK_GAS_LIMIT,
-            NUM_WORDS
+            numWords
         );
 
-        emit RequestComplete(s_requestId);
+        emit RequestVRFComplete(requestId);
+
+        return requestId;
     }
 
     /*
@@ -82,13 +89,13 @@ contract ChainlinkVRFConsumer is VRFConsumerBaseV2, AccessControlEnumerable {
         uint256 requestId,
         uint256[] memory randomWords
     ) internal override {
-        s_requestIdToRandomWords[requestId] = randomWords;
+        _sRequestIdToRandomWords[requestId] = randomWords;
         emit ReturnedRandomness(randomWords);
     }
 
     function getRandomWords(
         uint256 requestId
     ) public view onlyRole(USER_ROLE) returns (uint256[] memory) {
-        return s_requestIdToRandomWords[requestId];
+        return _sRequestIdToRandomWords[requestId];
     }
 }
