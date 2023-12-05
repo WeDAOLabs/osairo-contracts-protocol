@@ -62,11 +62,24 @@ contract LandTileNFTMintSource is
         uint64 destinationChainSelector,
         address receiver
     ) public returns (bytes32) {
-        PayFeesIn payFeesIn = PayFeesIn.Native;
+        return
+            _sendMsg(
+                destinationChainSelector,
+                receiver,
+                abi.encodeWithSignature("mintLandTile(address)", msg.sender),
+                PayFeesIn.Native
+            );
+    }
 
+    function _sendMsg(
+        uint64 destinationChainSelector,
+        address receiver,
+        string text,
+        PayFeesIn payFeesIn
+    ) internal returns (bytes32) {
         Client.EVM2AnyMessage memory message = Client.EVM2AnyMessage({
             receiver: abi.encode(receiver),
-            data: abi.encodeWithSignature("mintLandTile(address)", msg.sender),
+            data: text,
             tokenAmounts: new Client.EVMTokenAmount[](0),
             extraArgs: "",
             feeToken: payFeesIn == PayFeesIn.LINK
