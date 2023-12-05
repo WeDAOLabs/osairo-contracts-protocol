@@ -8,15 +8,15 @@ import "./IOsairoLandTileDynamicNFT.sol";
 contract LandTileNFTMintDestination is CCIPReceiver {
     IOsairoLandTileDynamicNFT iOLTNft;
 
-    event CCIPReceiverCallSuccess(address indexed to, string data);
+    event CCIPReceiverCallSuccess(bytes32 messageId, address indexed to);
 
-    struct Message {
-        bytes32 messageId;
-        address sender;
-        string message; // The content of the message.
-    }
+    // struct Message {
+    //     bytes32 messageId;
+    //     address sender;
+    //     string message; // The content of the message.
+    // }
 
-    mapping(bytes32 => Message) private messageDetail;
+    // mapping(bytes32 => Message) private messageDetail;
 
     constructor(address router, address nftAddress) CCIPReceiver(router) {
         iOLTNft = IOsairoLandTileDynamicNFT(nftAddress);
@@ -31,8 +31,6 @@ contract LandTileNFTMintDestination is CCIPReceiver {
         (bool success, ) = address(iOLTNft).call(message.data);
         require(success, "call failed");
 
-        messageDetail[messageId] = Message(messageId, sender, "");
-
-        emit CCIPReceiverCallSuccess(sender, "");
+        emit CCIPReceiverCallSuccess(messageId, sender);
     }
 }
