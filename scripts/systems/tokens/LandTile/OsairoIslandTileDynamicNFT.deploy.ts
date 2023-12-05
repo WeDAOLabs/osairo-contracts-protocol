@@ -12,14 +12,17 @@ const DeployConfig = {
   sepolia: {
     subId: "7484",
     coordinateAddress: "0x8103b0a8a00be2ddc778e6e7eaa21791cd364625",
+    nft: "0x41E7bD6256F8Ff51966a7FDCDbe93585e5315BfA",
   },
   mumbai: {
     subId: "6622",
     coordinateAddress: "0x7a1bac17ccc5b313516c5e16fb24f7659aa5ebed",
+    nft: "",
   },
   default: {
     subId: "",
     coordinateAddress: "",
+    nft: "",
   },
 };
 
@@ -31,6 +34,10 @@ async function main() {
       : network.chainId === 11155111
       ? DeployConfig.sepolia
       : DeployConfig.default;
+
+  if (!params || params.subId === "" || params.coordinateAddress === "") {
+    throw new Error("params error.");
+  }
 
   const base =
     "hello osairo;" +
