@@ -121,7 +121,7 @@ describe("OsairoIslandTileDynamicNFT", function () {
   it("OsairoIslandTileDynamicNFT: nftListOfUser", async () => {
     const [owner, addr1] = await ethers.getSigners();
 
-    expect(await contract.balanceOf(owner.address)).to.be.equal(0);
+    expect(await contract.balanceOf(addr1.address)).to.be.equal(0);
 
     contract = contract.connect(owner);
 
@@ -140,6 +140,14 @@ describe("OsairoIslandTileDynamicNFT", function () {
     );
     await tx.wait();
 
-    expect(await contract.balanceOf(owner.address)).to.be.equal(1);
+    const tokenId = await contract.tokenOfOwnerByIndex(addr1.address, 0);
+    expect(await contract.balanceOf(addr1.address)).to.be.equal(1);
+    expect(tokenId).to.be.equal(1);
+
+    let list = await contract.nftListOfUser(addr1.address, 0, 10);
+    expect(list).not.to.be.null.and.length.to.be.equal(1);
+
+    list = await contract.nftListOfUser(addr1.address, 1, 10);
+    expect(list).not.to.be.null.and.length.to.be.equal(0);
   });
 });

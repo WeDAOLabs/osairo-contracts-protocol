@@ -177,7 +177,7 @@ contract OsairoIslandTileDynamicNFT is
         uint256 index,
         uint256 pageCount
     ) public view returns (uint256[] memory) {
-        uint256 total = this.balanceOf(owner);
+        uint256 total = balanceOf(owner);
         if (total <= 0) {
             return new uint256[](0);
         }
@@ -190,7 +190,7 @@ contract OsairoIslandTileDynamicNFT is
         uint256[] memory list = new uint256[](lastIdx.sub(index));
 
         for (uint256 i = index; i < lastIdx; i++) {
-            list[i] = this.tokenOfOwnerByIndex(owner, i);
+            list[i] = tokenOfOwnerByIndex(owner, i);
         }
 
         return list;
