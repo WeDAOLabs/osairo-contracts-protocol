@@ -122,5 +122,24 @@ describe("OsairoIslandTileDynamicNFT", function () {
     const [owner, addr1] = await ethers.getSigners();
 
     expect(await contract.balanceOf(owner.address)).to.be.equal(0);
+
+    contract = contract.connect(owner);
+
+    let tx = await contract.mintLandTile(addr1.address);
+    const receipt = await tx.wait();
+    const event = receipt.events[0];
+
+    const [s_requestId] = ethers.utils.defaultAbiCoder.decode(
+      ["uint256"],
+      event.data
+    );
+
+    tx = await mockCoordinatorContract.fulfillRandomWords(
+      s_requestId,
+      contract.address
+    );
+    await tx.wait();
+
+    expect(await contract.balanceOf(owner.address)).to.be.equal(1);
   });
 });
