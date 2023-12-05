@@ -117,4 +117,10 @@ describe("OsairoIslandTileDynamicNFT", function () {
 
     console.log(decodedData);
   });
+
+  it("OsairoIslandTileDynamicNFT: nftListOfUser", async () => {
+    const [owner, addr1] = await ethers.getSigners();
+
+    expect(await contract.balanceOf(owner.address)).to.be.equal(0);
+  });
 });
