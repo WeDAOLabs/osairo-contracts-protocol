@@ -74,12 +74,12 @@ contract LandTileNFTMintSource is
     function _sendMsg(
         uint64 destinationChainSelector,
         address receiver,
-        string text,
+        bytes memory message,
         PayFeesIn payFeesIn
     ) internal returns (bytes32) {
         Client.EVM2AnyMessage memory message = Client.EVM2AnyMessage({
             receiver: abi.encode(receiver),
-            data: text,
+            data: message,
             tokenAmounts: new Client.EVMTokenAmount[](0),
             extraArgs: "",
             feeToken: payFeesIn == PayFeesIn.LINK
