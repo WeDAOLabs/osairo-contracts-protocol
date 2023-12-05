@@ -4,7 +4,7 @@ const FuncConfig = {
   sepolic: {
     nftName: "OsairoIslandTileDynamicNFT",
     ccipDest: "",
-    nft: "0x41E7bD6256F8Ff51966a7FDCDbe93585e5315BfA",
+    nft: "0x3DD4D684D9Cf5fa144CC310C186761E3CD6FC0E8",
   },
   default: {
     nftName: "OsairoIslandTileDynamicNFT",

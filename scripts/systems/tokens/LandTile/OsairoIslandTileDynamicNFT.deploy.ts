@@ -4,7 +4,7 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 
-// 0x41E7bD6256F8Ff51966a7FDCDbe93585e5315BfA
+// 0x3DD4D684D9Cf5fa144CC310C186761E3CD6FC0E8
 import { EonDeploy } from "../../../deploy/eon-deploy.class";
 import hre, { ethers } from "hardhat";
 
@@ -12,7 +12,7 @@ const DeployConfig = {
   sepolia: {
     subId: "7484",
     coordinateAddress: "0x8103b0a8a00be2ddc778e6e7eaa21791cd364625",
-    nft: "0x41E7bD6256F8Ff51966a7FDCDbe93585e5315BfA",
+    nft: "0x3DD4D684D9Cf5fa144CC310C186761E3CD6FC0E8",
   },
   mumbai: {
     subId: "6622",
