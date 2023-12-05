@@ -39,7 +39,7 @@ contract LandTileNFTMintDestination is
     function _ccipReceive(
         Client.Any2EVMMessage memory message
     ) internal override {
-        (bool success, ) = address(nft).call(message.data);
+        (bool success, ) = address(iOLTNft).call(message.data);
         require(success);
         emit MintCallSuccessfull();
     }
