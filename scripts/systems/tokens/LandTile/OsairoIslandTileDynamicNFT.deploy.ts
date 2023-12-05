@@ -4,17 +4,18 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 
+// 0x41E7bD6256F8Ff51966a7FDCDbe93585e5315BfA
 import { EonDeploy } from "../../../deploy/eon-deploy.class";
 import hre, { ethers } from "hardhat";
 
 const DeployConfig = {
   sepolia: {
-    subId: "",
-    coordinateAddress: "",
+    subId: "7484",
+    coordinateAddress: "0x8103b0a8a00be2ddc778e6e7eaa21791cd364625",
   },
   mumbai: {
-    subId: "",
-    coordinateAddress: "",
+    subId: "6622",
+    coordinateAddress: "0x7a1bac17ccc5b313516c5e16fb24f7659aa5ebed",
   },
   default: {
     subId: "",
@@ -23,7 +24,6 @@ const DeployConfig = {
 };
 
 async function main() {
-  console.log("hre", hre.network.config);
   const network = hre.network.config;
   const params =
     network.chainId === 80001
@@ -45,7 +45,7 @@ async function main() {
 
   const deployer = new EonDeploy();
   const contract = await deployer.deployNormalWithData(
-    "OsairoIslandTileDynamicNFT.deploy",
+    "OsairoIslandTileDynamicNFT",
     [params.subId, params.coordinateAddress, hash],
     true
   );

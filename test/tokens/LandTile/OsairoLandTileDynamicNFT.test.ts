@@ -3,7 +3,7 @@ import exp from "constants";
 import { BigNumber, Contract } from "ethers";
 import { ethers } from "hardhat";
 
-describe("OsairoLandTileDynamicNFT", function () {
+describe("OsairoIslandTileDynamicNFT", function () {
   let mockCoordinatorContract: Contract;
   let contract: Contract;
 
@@ -31,7 +31,7 @@ describe("OsairoLandTileDynamicNFT", function () {
       "0xd4bb89654db74673a187bd804519e65e3f71a52bc55f11da7601a13dcf505314";
 
     const OsairoLandTileDynamicNFTContract = await ethers.getContractFactory(
-      "OsairoLandTileDynamicNFT"
+      "OsairoIslandTileDynamicNFT"
     );
 
     contract = await OsairoLandTileDynamicNFTContract.deploy(
@@ -44,20 +44,20 @@ describe("OsairoLandTileDynamicNFT", function () {
     await mockCoordinatorContract.addConsumer(s_currentSubId, contract.address);
   });
 
-  it("OsairoLandTileDynamicNFT case", async () => {
+  it("OsairoIslandTileDynamicNFT case", async () => {
     expect(contract).to.be.instanceOf(Contract);
     expect(await contract.name()).to.equal("OsairoLandTile");
     expect(await contract.symbol()).to.equal("OLT");
   });
 
-  it("OsairoLandTileDynamicNFT:contract valid", async () => {
+  it("OsairoIslandTileDynamicNFT:contract valid", async () => {
     expect(mockCoordinatorContract).not.null;
     expect(mockCoordinatorContract instanceof Contract).to.be.true;
     expect(contract).not.null;
     expect(contract instanceof Contract).to.be.true;
   });
 
-  it("OsairoLandTileDynamicNFT:mint", async function () {
+  it("OsairoIslandTileDynamicNFT:mint", async function () {
     const [owner, addr1] = await ethers.getSigners();
     contract = contract.connect(owner);
 

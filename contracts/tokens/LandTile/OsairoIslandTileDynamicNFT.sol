@@ -11,7 +11,7 @@ import "@openzeppelin/contracts/utils/Base64.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/vrf/VRFConsumerBaseV2.sol";
 
-contract OsairoLandTileDynamicNFT is
+contract OsairoIslandTileDynamicNFT is
     ERC721Enumerable,
     VRFConsumerBaseV2,
     AccessControlEnumerable
