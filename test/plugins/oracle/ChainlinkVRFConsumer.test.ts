@@ -97,7 +97,7 @@ describe("ChainlinkVRFConsumer", function () {
     )
       .to.emit(contract, "ReturnedRandomness")
       .to.emit(mockCoordinatorContract, "RandomWordsFulfilled")
-      .withArgs(s_requestId, s_requestId, 145948500, true);
+      .withArgs(s_requestId, s_requestId, 29190500, true);
 
     s_randomWords = await contract.getRandomWords(s_requestId);
     expect(s_randomWords).not.to.be.empty;

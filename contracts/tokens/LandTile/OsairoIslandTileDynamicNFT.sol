@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/vrf/VRFConsumerBaseV2.sol";
@@ -19,6 +20,8 @@ contract OsairoIslandTileDynamicNFT is
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
     using Counters for Counters.Counter;
+
+    using SafeMath for uint256;
 
     string[] private tileTypes = [
         "Enchanted Forest",
@@ -167,6 +170,30 @@ contract OsairoIslandTileDynamicNFT is
         emit StartToMintTile(requestId, to, tokenId);
 
         return requestId;
+    }
+
+    function nftListOfUser(
+        address owner,
+        uint256 index,
+        uint256 pageCount
+    ) public view returns (uint256[] memory) {
+        uint256 total = this.balanceOf(owner);
+        if (total <= 0) {
+            return new uint256[](0);
+        }
+
+        uint256 lastIdx = pageCount.add(index);
+        if (lastIdx > total) {
+            lastIdx = total;
+        }
+
+        uint256[] memory list = new uint256[](lastIdx.sub(index));
+
+        for (uint256 i = index; i < lastIdx; i++) {
+            list[i] = this.tokenOfOwnerByIndex(owner, i);
+        }
+
+        return list;
     }
 
     function fulfillRandomWords(

@@ -6,13 +6,12 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
 import {IRouterClient} from "@chainlink/contracts-ccip/src/v0.8/ccip/interfaces/IRouterClient.sol";
-import {OwnerIsCreator} from "@chainlink/contracts-ccip/src/v0.8/shared/access/OwnerIsCreator.sol";
 import {Client} from "@chainlink/contracts-ccip/src/v0.8/ccip/libraries/Client.sol";
+import {LinkTokenInterface} from "@chainlink/contracts/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
 
 contract LandTileNFTMintSource is
-    OwnerIsCreator,
-    AccessControlUpgradeable,
     Initializable,
+    AccessControlUpgradeable,
     UUPSUpgradeable
 {
     bytes32 public constant SENDER_ROLE = keccak256("SENDER_ROLE");
@@ -48,7 +47,7 @@ contract LandTileNFTMintSource is
         __UUPSUpgradeable_init();
 
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(MINTER_ROLE, msg.sender);
+        _grantRole(SENDER_ROLE, msg.sender);
         _grantRole(UPGRADER_ROLE, msg.sender);
 
         s_router = IRouterClient(_router);
@@ -63,14 +62,16 @@ contract LandTileNFTMintSource is
         uint64 destinationChainSelector,
         address receiver
     ) public returns (bytes32) {
-        PayFeesIn memory payFeesIn = PayFeesIn.Native;
+        PayFeesIn payFeesIn = PayFeesIn.Native;
 
         Client.EVM2AnyMessage memory message = Client.EVM2AnyMessage({
             receiver: abi.encode(receiver),
             data: abi.encodeWithSignature("mintLandTile(address)", msg.sender),
             tokenAmounts: new Client.EVMTokenAmount[](0),
             extraArgs: "",
-            feeToken: payFeesIn == PayFeesIn.LINK ? s_linkToken : address(0)
+            feeToken: payFeesIn == PayFeesIn.LINK
+                ? address(s_linkToken)
+                : address(0)
         });
 
         uint256 fee = IRouterClient(s_router).getFee(
@@ -104,6 +105,12 @@ contract LandTileNFTMintSource is
 
         return messageId;
     }
+
+    function tokenURI(uint256 tokenId) public view returns (string memory) {
+        return "";
+    }
+
+    function balanceOf(uint256 tokenId) public view returns (string memory) {}
 
     function _authorizeUpgrade(
         address newImplementation

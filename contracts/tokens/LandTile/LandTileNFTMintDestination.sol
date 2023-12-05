@@ -1,50 +1,38 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.21;
 
-import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-
 import {CCIPReceiver} from "@chainlink/contracts-ccip/src/v0.8/ccip/applications/CCIPReceiver.sol";
 import {Client} from "@chainlink/contracts-ccip/src/v0.8/ccip/libraries/Client.sol";
 import "./IOsairoLandTileDynamicNFT.sol";
 
-contract LandTileNFTMintDestination is
-    CCIPReceiver,
-    AccessControlUpgradeable,
-    Initializable,
-    UUPSUpgradeable
-{
-    bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
-
+contract LandTileNFTMintDestination is CCIPReceiver {
     IOsairoLandTileDynamicNFT iOLTNft;
 
-    event MintCallSuccessfull();
+    event CCIPReceiverCallSuccess(address indexed to, string data);
 
-    /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() {
-        _disableInitializers();
+    struct Message {
+        bytes32 messageId;
+        address sender;
+        string message; // The content of the message.
     }
 
-    function initialize(address router, address nftAddress) public initializer {
-        __AccessControl_init();
-        __UUPSUpgradeable_init();
+    mapping(bytes32 => Message) private messageDetail;
 
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(UPGRADER_ROLE, msg.sender);
-
+    constructor(address router, address nftAddress) CCIPReceiver(router) {
         iOLTNft = IOsairoLandTileDynamicNFT(nftAddress);
     }
 
     function _ccipReceive(
         Client.Any2EVMMessage memory message
     ) internal override {
-        (bool success, ) = address(iOLTNft).call(message.data);
-        require(success);
-        emit MintCallSuccessfull();
-    }
+        bytes32 messageId = message.messageId;
+        address sender = abi.decode(message.sender, (address));
 
-    function _authorizeUpgrade(
-        address newImplementation
-    ) internal override onlyRole(UPGRADER_ROLE) {}
+        (bool success, ) = address(iOLTNft).call(message.data);
+        require(success, "call failed");
+
+        messageDetail[messageId] = Message(messageId, sender, "");
+
+        emit CCIPReceiverCallSuccess(sender, "");
+    }
 }

@@ -39,7 +39,7 @@ async function main() {
   }
 
   const deployer = new EonDeploy();
-  const contract = await deployer.deployUpgradeWithData(
+  const contract = await deployer.deployNormalWithData(
     "LandTileNFTMintDestination",
     [params.router, params.nft]
   );
