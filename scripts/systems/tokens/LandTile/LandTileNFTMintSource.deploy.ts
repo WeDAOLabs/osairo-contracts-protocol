@@ -4,7 +4,6 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 
-// 0x41E7bD6256F8Ff51966a7FDCDbe93585e5315BfA
 import { EonDeploy } from "../../../deploy/eon-deploy.class";
 import hre from "hardhat";
 
