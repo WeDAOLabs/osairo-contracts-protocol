@@ -57,7 +57,7 @@ contract LandTileNFTMintDestination is CCIPReceiver {
         // resend msg to notice the sender that nft mint success
         Client.EVM2AnyMessage memory messageReply = Client.EVM2AnyMessage({
             receiver: abi.encode(sender),
-            data: abi.encode(NFTOperation.Mint, tokenId),
+            data: abi.encode(NFTOperation.Mint, abi.encode(sender, tokenId)),
             tokenAmounts: new Client.EVMTokenAmount[](0),
             extraArgs: "",
             feeToken: address(0)

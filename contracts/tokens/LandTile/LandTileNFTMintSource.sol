@@ -27,6 +27,8 @@ contract LandTileNFTMintSource is CCIPReceiver {
         uint256 fees // The fees paid for sending the CCIP message.
     );
 
+    event LandTileMinted(address minter, uint256 tokenId);
+
     LinkTokenInterface private s_linkToken;
 
     constructor(address _router, address _link) CCIPReceiver(_router) {
@@ -103,11 +105,31 @@ contract LandTileNFTMintSource is CCIPReceiver {
 
     function _ccipReceive(
         Client.Any2EVMMessage memory message
-    ) internal override {}
+    ) internal override {
+        (NFTOperation operation, bytes memory data) = abi.decode(
+            message.data,
+            (NFTOperation, bytes)
+        );
+
+        if (operation == NFTOperation.Mint) {
+            (address minter, uint256 tokenId) = abi.decode(
+                data,
+                (address, uint256)
+            );
+
+            emit LandTileMinted(minter, tokenId);
+        }
+    }
 
     function tokenURI(uint256 tokenId) public view returns (string memory) {
         return "";
     }
 
     function balanceOf(uint256 tokenId) public view returns (string memory) {}
+
+    function nftListOfUser(
+        address owner,
+        uint256 index,
+        uint256 pageCount
+    ) public view returns (uint256[] memory) {}
 }
