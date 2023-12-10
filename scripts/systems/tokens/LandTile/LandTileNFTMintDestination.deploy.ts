@@ -11,6 +11,7 @@ const DeployConfig = {
   sepolia: {
     router: "0x0bf3de8c5d3e8a2b34d2beeb17abfcebaf363a59",
     nft: "0x3DD4D684D9Cf5fa144CC310C186761E3CD6FC0E8",
+    selfAddress: "0xb2c3b4f90e69158ca8AB4703e8Da15b24De1cb36",
   },
   mumbai: {
     router: "0x1035cabc275068e0f4b745a29cedf38e13af41b1",
@@ -31,7 +32,7 @@ async function main() {
     throw new Error("wrong net.");
   }
 
-  const params = DeployConfig.mumbai;
+  const params = DeployConfig.sepolia;
 
   if (!params || params.router === "" || params.nft === "") {
     throw new Error("params error.");
