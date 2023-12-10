@@ -14,7 +14,7 @@ const DeployConfig = {
     link: "0x779877A7B0D9E8603169DdbD7836e478b4624789",
   },
   mumbai: {
-    router: "0x70499c328e1e2a3c41108bd3730f6670a44595d1",
+    router: "0x1035cabc275068e0f4b745a29cedf38e13af41b1",
     link: "0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
   },
   default: {
@@ -38,7 +38,7 @@ async function main() {
   }
 
   const deployer = new EonDeploy();
-  const contract = await deployer.deployUpgradeWithData(
+  const contract = await deployer.deployNormalWithData(
     "LandTileNFTMintSource",
     [params.router, params.link]
   );

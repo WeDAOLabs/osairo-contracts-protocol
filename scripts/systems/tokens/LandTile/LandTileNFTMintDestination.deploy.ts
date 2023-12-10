@@ -9,11 +9,11 @@ import hre from "hardhat";
 
 const DeployConfig = {
   sepolia: {
-    router: "0xD0daae2231E9CB96b94C8512223533293C3693Bf",
+    router: "0x0bf3de8c5d3e8a2b34d2beeb17abfcebaf363a59",
     nft: "0x3DD4D684D9Cf5fa144CC310C186761E3CD6FC0E8",
   },
   mumbai: {
-    router: "0x70499c328e1e2a3c41108bd3730f6670a44595d1",
+    router: "0x1035cabc275068e0f4b745a29cedf38e13af41b1",
     nft: "",
   },
   default: {
