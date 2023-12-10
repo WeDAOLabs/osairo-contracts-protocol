@@ -58,17 +58,45 @@ contract LandTileNFTMintSource is CCIPReceiver {
             );
     }
 
-    function tokenURI(uint256 tokenId) public view returns (string memory) {
-        return "";
+    function tokenURI(
+        uint64 destinationChainSelector,
+        address receiver,
+        uint256 tokenId
+    ) public view {
+        _sendMsg(
+            destinationChainSelector,
+            receiver,
+            abi.encode(NFTOperation.TokenUri, tokenId),
+            PayFeesIn.Native
+        );
     }
 
-    function balanceOf(uint256 tokenId) public view returns (string memory) {}
+    function balanceOf(
+        uint64 destinationChainSelector,
+        address receiver,
+        uint256 tokenId
+    ) public view {
+        _sendMsg(
+            destinationChainSelector,
+            receiver,
+            abi.encode(NFTOperation.BalanceOf, tokenId),
+            PayFeesIn.Native
+        );
+    }
 
     function nftListOfUser(
-        address owner,
+        uint64 destinationChainSelector,
+        address receiver,
         uint256 index,
         uint256 pageCount
-    ) public view returns (uint256[] memory) {}
+    ) public view returns (uint256[] memory) {
+        _sendMsg(
+            destinationChainSelector,
+            receiver,
+            abi.encode(NFTOperation.TokenList, index, pageCount),
+            PayFeesIn.Native
+        );
+    }
 
     function _sendMsg(
         uint64 destinationChainSelector,
