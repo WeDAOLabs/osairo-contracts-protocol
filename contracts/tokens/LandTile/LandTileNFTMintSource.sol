@@ -62,7 +62,7 @@ contract LandTileNFTMintSource is CCIPReceiver {
         uint64 destinationChainSelector,
         address receiver,
         uint256 tokenId
-    ) public view {
+    ) public {
         _sendMsg(
             destinationChainSelector,
             receiver,
@@ -75,7 +75,7 @@ contract LandTileNFTMintSource is CCIPReceiver {
         uint64 destinationChainSelector,
         address receiver,
         uint256 tokenId
-    ) public view {
+    ) public {
         _sendMsg(
             destinationChainSelector,
             receiver,
@@ -89,7 +89,7 @@ contract LandTileNFTMintSource is CCIPReceiver {
         address receiver,
         uint256 index,
         uint256 pageCount
-    ) public view returns (uint256[] memory) {
+    ) public {
         _sendMsg(
             destinationChainSelector,
             receiver,
