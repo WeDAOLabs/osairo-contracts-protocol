@@ -3,20 +3,24 @@ pragma solidity 0.8.21;
 
 import {CCIPReceiver} from "@chainlink/contracts-ccip/src/v0.8/ccip/applications/CCIPReceiver.sol";
 import {Client} from "@chainlink/contracts-ccip/src/v0.8/ccip/libraries/Client.sol";
+import {IRouterClient} from "@chainlink/contracts-ccip/src/v0.8/ccip/interfaces/IRouterClient.sol";
 import "./IOsairoLandTileDynamicNFT.sol";
 
 contract LandTileNFTMintDestination is CCIPReceiver {
     IOsairoLandTileDynamicNFT iOLTNft;
 
-    event CCIPReceiverCallSuccess(bytes32 messageId, address indexed to);
+    enum NFTOperation {
+        Mint,
+        BalanceOf,
+        tokenUri,
+        tokenList
+    }
 
-    // struct Message {
-    //     bytes32 messageId;
-    //     address sender;
-    //     string message; // The content of the message.
-    // }
-
-    // mapping(bytes32 => Message) private messageDetail;
+    event CCIPReceiverCallSuccess(
+        bytes32 messageId,
+        address indexed to,
+        uint256 tokenId
+    );
 
     constructor(address router, address nftAddress) CCIPReceiver(router) {
         iOLTNft = IOsairoLandTileDynamicNFT(nftAddress);
@@ -26,11 +30,42 @@ contract LandTileNFTMintDestination is CCIPReceiver {
         Client.Any2EVMMessage memory message
     ) internal override {
         bytes32 messageId = message.messageId;
+        uint64 sourceChainSelector = message.sourceChainSelector;
         address sender = abi.decode(message.sender, (address));
+        (NFTOperation operation, bytes memory data) = abi.decode(
+            message.data,
+            (NFTOperation, bytes)
+        );
 
-        (bool success, ) = address(iOLTNft).call(message.data);
+        if (operation == NFTOperation.Mint) {
+            _mintNft(messageId, sender, data, sourceChainSelector);
+        }
+    }
+
+    function _mintNft(
+        bytes32 messageId,
+        address sender,
+        bytes memory data,
+        uint64 sourceChainSelector
+    ) internal {
+        (bool success, bytes memory result) = address(iOLTNft).call(data);
         require(success, "call failed");
 
-        emit CCIPReceiverCallSuccess(messageId, sender);
+        uint256 tokenId = abi.decode(result, (uint256));
+        emit CCIPReceiverCallSuccess(messageId, sender, tokenId);
+
+        // resend msg to notice the sender that nft mint success
+        Client.EVM2AnyMessage memory messageReply = Client.EVM2AnyMessage({
+            receiver: abi.encode(sender),
+            data: abi.encode(NFTOperation.Mint, tokenId),
+            tokenAmounts: new Client.EVMTokenAmount[](0),
+            extraArgs: "",
+            feeToken: address(0)
+        });
+
+        bytes32 replyMessageId = IRouterClient(i_router).ccipSend(
+            sourceChainSelector,
+            messageReply
+        );
     }
 }

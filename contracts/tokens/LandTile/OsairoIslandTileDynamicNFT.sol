@@ -169,7 +169,7 @@ contract OsairoIslandTileDynamicNFT is
 
         emit StartToMintTile(requestId, to, tokenId);
 
-        return requestId;
+        return tokenId;
     }
 
     function nftListOfUser(

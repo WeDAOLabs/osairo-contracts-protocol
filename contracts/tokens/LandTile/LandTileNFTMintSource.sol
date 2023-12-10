@@ -1,25 +1,22 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.21;
 
-import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-
+import {CCIPReceiver} from "@chainlink/contracts-ccip/src/v0.8/ccip/applications/CCIPReceiver.sol";
 import {IRouterClient} from "@chainlink/contracts-ccip/src/v0.8/ccip/interfaces/IRouterClient.sol";
 import {Client} from "@chainlink/contracts-ccip/src/v0.8/ccip/libraries/Client.sol";
 import {LinkTokenInterface} from "@chainlink/contracts/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
 
-contract LandTileNFTMintSource is
-    Initializable,
-    AccessControlUpgradeable,
-    UUPSUpgradeable
-{
-    bytes32 public constant SENDER_ROLE = keccak256("SENDER_ROLE");
-    bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
-
+contract LandTileNFTMintSource is CCIPReceiver {
     enum PayFeesIn {
         Native,
         LINK
+    }
+
+    enum NFTOperation {
+        Mint,
+        BalanceOf,
+        tokenUri,
+        tokenList
     }
 
     error NotEnoughBalance(uint256 currentBalance, uint256 calculatedFees); // Used to make sure contract has enough balance.
@@ -30,27 +27,9 @@ contract LandTileNFTMintSource is
         uint256 fees // The fees paid for sending the CCIP message.
     );
 
-    IRouterClient private s_router;
-
     LinkTokenInterface private s_linkToken;
 
-    /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() {
-        _disableInitializers();
-    }
-
-    /// @notice Constructor initializes the contract with the router address.
-    /// @param _router The address of the router contract.
-    /// @param _link The address of the link contract.
-    function initialize(address _router, address _link) public initializer {
-        __AccessControl_init();
-        __UUPSUpgradeable_init();
-
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(SENDER_ROLE, msg.sender);
-        _grantRole(UPGRADER_ROLE, msg.sender);
-
-        s_router = IRouterClient(_router);
+    constructor(address _router, address _link) CCIPReceiver(_router) {
         s_linkToken = LinkTokenInterface(_link);
     }
 
@@ -66,7 +45,10 @@ contract LandTileNFTMintSource is
             _sendMsg(
                 destinationChainSelector,
                 receiver,
-                abi.encodeWithSignature("mintLandTile(address)", msg.sender),
+                abi.encode(
+                    NFTOperation.Mint,
+                    abi.encodeWithSignature("mintLandTile(address)", msg.sender)
+                ),
                 PayFeesIn.Native
             );
     }
@@ -87,7 +69,7 @@ contract LandTileNFTMintSource is
                 : address(0)
         });
 
-        uint256 fee = IRouterClient(s_router).getFee(
+        uint256 fee = IRouterClient(i_router).getFee(
             destinationChainSelector,
             message
         );
@@ -101,14 +83,14 @@ contract LandTileNFTMintSource is
                     fee
                 );
 
-            s_linkToken.approve(address(s_router), fee);
+            s_linkToken.approve(address(i_router), fee);
 
-            messageId = IRouterClient(s_router).ccipSend(
+            messageId = IRouterClient(i_router).ccipSend(
                 destinationChainSelector,
                 message
             );
         } else {
-            messageId = IRouterClient(s_router).ccipSend{value: fee}(
+            messageId = IRouterClient(i_router).ccipSend{value: fee}(
                 destinationChainSelector,
                 message
             );
@@ -119,13 +101,13 @@ contract LandTileNFTMintSource is
         return messageId;
     }
 
+    function _ccipReceive(
+        Client.Any2EVMMessage memory message
+    ) internal override {}
+
     function tokenURI(uint256 tokenId) public view returns (string memory) {
         return "";
     }
 
     function balanceOf(uint256 tokenId) public view returns (string memory) {}
-
-    function _authorizeUpgrade(
-        address newImplementation
-    ) internal override onlyRole(UPGRADER_ROLE) {}
 }
