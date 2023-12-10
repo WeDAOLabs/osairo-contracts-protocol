@@ -58,6 +58,18 @@ contract LandTileNFTMintSource is CCIPReceiver {
             );
     }
 
+    function tokenURI(uint256 tokenId) public view returns (string memory) {
+        return "";
+    }
+
+    function balanceOf(uint256 tokenId) public view returns (string memory) {}
+
+    function nftListOfUser(
+        address owner,
+        uint256 index,
+        uint256 pageCount
+    ) public view returns (uint256[] memory) {}
+
     function _sendMsg(
         uint64 destinationChainSelector,
         address receiver,
@@ -144,16 +156,4 @@ contract LandTileNFTMintSource is CCIPReceiver {
             emit TokenListOfLandTile(owner, list);
         }
     }
-
-    function tokenURI(uint256 tokenId) public view returns (string memory) {
-        return "";
-    }
-
-    function balanceOf(uint256 tokenId) public view returns (string memory) {}
-
-    function nftListOfUser(
-        address owner,
-        uint256 index,
-        uint256 pageCount
-    ) public view returns (uint256[] memory) {}
 }
