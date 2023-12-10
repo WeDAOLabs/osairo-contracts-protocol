@@ -73,8 +73,7 @@ contract LandTileNFTMintSource is CCIPReceiver {
 
     function balanceOf(
         uint64 destinationChainSelector,
-        address receiver,
-        uint256 tokenId
+        address receiver
     ) public {
         _sendMsg(
             destinationChainSelector,
