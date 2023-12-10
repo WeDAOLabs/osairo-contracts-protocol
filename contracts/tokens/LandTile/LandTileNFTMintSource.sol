@@ -15,8 +15,8 @@ contract LandTileNFTMintSource is CCIPReceiver {
     enum NFTOperation {
         Mint,
         BalanceOf,
-        tokenUri,
-        tokenList
+        TokenUri,
+        TokenList
     }
 
     error NotEnoughBalance(uint256 currentBalance, uint256 calculatedFees); // Used to make sure contract has enough balance.
@@ -28,6 +28,9 @@ contract LandTileNFTMintSource is CCIPReceiver {
     );
 
     event LandTileMinted(address minter, uint256 tokenId);
+    event BalanceOfLandTile(address owner, uint256 count);
+    event TokenUriOfLandTile(address owner, string tokenUri);
+    event TokenListOfLandTile(address owner, uint256[] tokenList);
 
     LinkTokenInterface private s_linkToken;
 
@@ -58,12 +61,12 @@ contract LandTileNFTMintSource is CCIPReceiver {
     function _sendMsg(
         uint64 destinationChainSelector,
         address receiver,
-        bytes memory message,
+        bytes memory messageData,
         PayFeesIn payFeesIn
     ) internal returns (bytes32) {
         Client.EVM2AnyMessage memory message = Client.EVM2AnyMessage({
             receiver: abi.encode(receiver),
-            data: message,
+            data: messageData,
             tokenAmounts: new Client.EVMTokenAmount[](0),
             extraArgs: "",
             feeToken: payFeesIn == PayFeesIn.LINK
@@ -118,6 +121,27 @@ contract LandTileNFTMintSource is CCIPReceiver {
             );
 
             emit LandTileMinted(minter, tokenId);
+        } else if (operation == NFTOperation.BalanceOf) {
+            (address owner, uint256 count) = abi.decode(
+                data,
+                (address, uint256)
+            );
+
+            emit BalanceOfLandTile(owner, count);
+        } else if (operation == NFTOperation.TokenUri) {
+            (address owner, string memory uri) = abi.decode(
+                data,
+                (address, string)
+            );
+
+            emit TokenUriOfLandTile(owner, uri);
+        } else if (operation == NFTOperation.TokenList) {
+            (address owner, uint256[] memory list) = abi.decode(
+                data,
+                (address, uint256[])
+            );
+
+            emit TokenListOfLandTile(owner, list);
         }
     }
 

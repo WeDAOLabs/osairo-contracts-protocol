@@ -12,8 +12,8 @@ contract LandTileNFTMintDestination is CCIPReceiver {
     enum NFTOperation {
         Mint,
         BalanceOf,
-        tokenUri,
-        tokenList
+        TokenUri,
+        TokenList
     }
 
     event CCIPReceiverCallSuccess(
@@ -63,9 +63,6 @@ contract LandTileNFTMintDestination is CCIPReceiver {
             feeToken: address(0)
         });
 
-        bytes32 replyMessageId = IRouterClient(i_router).ccipSend(
-            sourceChainSelector,
-            messageReply
-        );
+        IRouterClient(i_router).ccipSend(sourceChainSelector, messageReply);
     }
 }
