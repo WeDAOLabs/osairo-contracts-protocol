@@ -1,9 +1,9 @@
 import hre, { ethers } from "hardhat";
 
 const FuncConfig = {
-  sepolic: {
+  sepolia: {
     nftName: "OsairoIslandTileDynamicNFT",
-    ccipDest: "",
+    ccipDest: "0xb2c3b4f90e69158ca8AB4703e8Da15b24De1cb36",
     nft: "0x3DD4D684D9Cf5fa144CC310C186761E3CD6FC0E8",
   },
   default: {
@@ -28,7 +28,6 @@ async function grantRole() {
     config.ccipDest
   );
   const receipt = await tx.wait();
-  console.log(receipt);
   console.log("Grant role ", "done!");
 }
 
@@ -36,7 +35,7 @@ let config;
 async function main() {
   const network = hre.network.config;
   config =
-    network.chainId === 11155111 ? FuncConfig.sepolic : FuncConfig.default;
+    network.chainId === 11155111 ? FuncConfig.sepolia : FuncConfig.default;
 
   if (
     !config ||
