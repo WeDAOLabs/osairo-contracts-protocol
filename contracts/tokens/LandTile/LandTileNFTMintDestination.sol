@@ -54,16 +54,11 @@ contract LandTileNFTMintDestination is CCIPReceiver {
         uint256 tokenId = abi.decode(result, (uint256));
         emit CCIPReceiverCallSuccess(messageId, sender, tokenId);
 
-        // resend msg to notice the sender that nft mint success
-        Client.EVM2AnyMessage memory messageReply = Client.EVM2AnyMessage({
-            receiver: abi.encode(sender),
-            data: abi.encode(NFTOperation.Mint, abi.encode(sender, tokenId)),
-            tokenAmounts: new Client.EVMTokenAmount[](0),
-            extraArgs: "",
-            feeToken: address(0)
-        });
-
-        IRouterClient(i_router).ccipSend(sourceChainSelector, messageReply);
+        _replayMessage(
+            sender,
+            abi.encode(NFTOperation.Mint, abi.encode(sender, tokenId)),
+            sourceChainSelector
+        );
     }
 
     function _balanceOf(
@@ -74,18 +69,11 @@ contract LandTileNFTMintDestination is CCIPReceiver {
         address owner = abi.decode(data, (address));
         uint256 balanceOf = iOLTNft.balanceOf(owner);
 
-        Client.EVM2AnyMessage memory messageReply = Client.EVM2AnyMessage({
-            receiver: abi.encode(sender),
-            data: abi.encode(
-                NFTOperation.BalanceOf,
-                abi.encode(sender, balanceOf)
-            ),
-            tokenAmounts: new Client.EVMTokenAmount[](0),
-            extraArgs: "",
-            feeToken: address(0)
-        });
-
-        IRouterClient(i_router).ccipSend(sourceChainSelector, messageReply);
+        _replayMessage(
+            sender,
+            abi.encode(NFTOperation.BalanceOf, abi.encode(sender, balanceOf)),
+            sourceChainSelector
+        );
     }
 
     function _tokenUri(
@@ -96,15 +84,11 @@ contract LandTileNFTMintDestination is CCIPReceiver {
         uint256 tokenId = abi.decode(data, (uint256));
         string memory uri = iOLTNft.tokenURI(tokenId);
 
-        Client.EVM2AnyMessage memory messageReply = Client.EVM2AnyMessage({
-            receiver: abi.encode(sender),
-            data: abi.encode(NFTOperation.TokenUri, abi.encode(sender, uri)),
-            tokenAmounts: new Client.EVMTokenAmount[](0),
-            extraArgs: "",
-            feeToken: address(0)
-        });
-
-        IRouterClient(i_router).ccipSend(sourceChainSelector, messageReply);
+        _replayMessage(
+            sender,
+            abi.encode(NFTOperation.TokenUri, abi.encode(sender, uri)),
+            sourceChainSelector
+        );
     }
 
     function _tokenList(
@@ -122,12 +106,21 @@ contract LandTileNFTMintDestination is CCIPReceiver {
             pageCount
         );
 
+        _replayMessage(
+            sender,
+            abi.encode(NFTOperation.TokenList, abi.encode(sender, nftList)),
+            sourceChainSelector
+        );
+    }
+
+    function _replayMessage(
+        address sender,
+        bytes memory data,
+        uint64 sourceChainSelector
+    ) internal {
         Client.EVM2AnyMessage memory messageReply = Client.EVM2AnyMessage({
             receiver: abi.encode(sender),
-            data: abi.encode(
-                NFTOperation.TokenList,
-                abi.encode(sender, nftList)
-            ),
+            data: data,
             tokenAmounts: new Client.EVMTokenAmount[](0),
             extraArgs: "",
             feeToken: address(0)
