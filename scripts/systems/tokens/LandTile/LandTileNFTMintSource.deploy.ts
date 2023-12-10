@@ -12,14 +12,17 @@ const DeployConfig = {
   sepolia: {
     router: "0xD0daae2231E9CB96b94C8512223533293C3693Bf",
     link: "0x779877A7B0D9E8603169DdbD7836e478b4624789",
+    selfAddress: "0x993e0A85Df7fE97EC83D5676218A2fFd119C0169",
   },
   mumbai: {
     router: "0x1035cabc275068e0f4b745a29cedf38e13af41b1",
     link: "0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
+    selfAddress: "0x993e0A85Df7fE97EC83D5676218A2fFd119C0169",
   },
   default: {
     router: "",
     link: "",
+    selfAddress: "",
   },
 };
 
