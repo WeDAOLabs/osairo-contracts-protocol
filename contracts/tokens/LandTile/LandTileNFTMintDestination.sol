@@ -65,4 +65,74 @@ contract LandTileNFTMintDestination is CCIPReceiver {
 
         IRouterClient(i_router).ccipSend(sourceChainSelector, messageReply);
     }
+
+    function _balanceOf(
+        address sender,
+        bytes memory data,
+        uint64 sourceChainSelector
+    ) internal {
+        address owner = abi.decode(data, (address));
+        uint256 balanceOf = iOLTNft.balanceOf(owner);
+
+        Client.EVM2AnyMessage memory messageReply = Client.EVM2AnyMessage({
+            receiver: abi.encode(sender),
+            data: abi.encode(
+                NFTOperation.BalanceOf,
+                abi.encode(sender, balanceOf)
+            ),
+            tokenAmounts: new Client.EVMTokenAmount[](0),
+            extraArgs: "",
+            feeToken: address(0)
+        });
+
+        IRouterClient(i_router).ccipSend(sourceChainSelector, messageReply);
+    }
+
+    function _tokenUri(
+        address sender,
+        bytes memory data,
+        uint64 sourceChainSelector
+    ) internal {
+        uint256 tokenId = abi.decode(data, (uint256));
+        string memory uri = iOLTNft.tokenURI(tokenId);
+
+        Client.EVM2AnyMessage memory messageReply = Client.EVM2AnyMessage({
+            receiver: abi.encode(sender),
+            data: abi.encode(NFTOperation.TokenUri, abi.encode(sender, uri)),
+            tokenAmounts: new Client.EVMTokenAmount[](0),
+            extraArgs: "",
+            feeToken: address(0)
+        });
+
+        IRouterClient(i_router).ccipSend(sourceChainSelector, messageReply);
+    }
+
+    function _tokenList(
+        address sender,
+        bytes memory data,
+        uint64 sourceChainSelector
+    ) internal {
+        (uint256 index, uint256 pageCount) = abi.decode(
+            data,
+            (uint256, uint256)
+        );
+        uint256[] memory nftList = iOLTNft.nftListOfUser(
+            sender,
+            index,
+            pageCount
+        );
+
+        Client.EVM2AnyMessage memory messageReply = Client.EVM2AnyMessage({
+            receiver: abi.encode(sender),
+            data: abi.encode(
+                NFTOperation.TokenList,
+                abi.encode(sender, nftList)
+            ),
+            tokenAmounts: new Client.EVMTokenAmount[](0),
+            extraArgs: "",
+            feeToken: address(0)
+        });
+
+        IRouterClient(i_router).ccipSend(sourceChainSelector, messageReply);
+    }
 }

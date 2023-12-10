@@ -6,6 +6,8 @@ interface IOsairoLandTileDynamicNFT {
 
     function balanceOf(address owner) external returns (uint256);
 
+    function tokenURI(uint256 tokenId) external returns (string memory);
+
     function tokenOfOwnerByIndex(
         address owner,
         uint256 index

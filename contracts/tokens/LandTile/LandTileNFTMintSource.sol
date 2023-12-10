@@ -66,7 +66,7 @@ contract LandTileNFTMintSource is CCIPReceiver {
         _sendMsg(
             destinationChainSelector,
             receiver,
-            abi.encode(NFTOperation.TokenUri, tokenId),
+            abi.encode(NFTOperation.TokenUri, abi.encode(tokenId)),
             PayFeesIn.Native
         );
     }
@@ -79,7 +79,7 @@ contract LandTileNFTMintSource is CCIPReceiver {
         _sendMsg(
             destinationChainSelector,
             receiver,
-            abi.encode(NFTOperation.BalanceOf, tokenId),
+            abi.encode(NFTOperation.BalanceOf, abi.encode(msg.sender)),
             PayFeesIn.Native
         );
     }
@@ -93,7 +93,7 @@ contract LandTileNFTMintSource is CCIPReceiver {
         _sendMsg(
             destinationChainSelector,
             receiver,
-            abi.encode(NFTOperation.TokenList, index, pageCount),
+            abi.encode(NFTOperation.TokenList, abi.encode(index, pageCount)),
             PayFeesIn.Native
         );
     }
