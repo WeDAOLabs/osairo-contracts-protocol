@@ -17,6 +17,7 @@
   },
   "homepage": "https://land.osairo.xyz/",
   "devDependencies": {
+    "@chainlink/contracts-ccip": "^0.7.6",
     "@matterlabs/hardhat-zksync-deploy": "^0.6.3",
     "@matterlabs/hardhat-zksync-solc": "^0.4.1",
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.5",

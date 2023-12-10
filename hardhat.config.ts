@@ -20,18 +20,8 @@ const {
   ARBITRUM_TESTNET_DEPLOYER_PRIVATE_KEY,
   ARBITRUM_MAINNET_URL,
   ARBITRUM_MAINNET_DEPLOYER_PRIVATE_KEY,
-  // ZKSYNC_ERA_TESTNET_URL,
-  // ZKSYNC_ERA_TESTNET_DEPLOYER_PRIVATE_KEY,
-  // ZKSYNC_ERA_MAINNET_URL,
-  // ZKSYNC_ERA_MAINNET_DEPLOYER_PRIVATE_KEY,
-  // POLYGON_ZKEVM_TESTNET_URL,
-  // POLYGON_ZKEVM_TESTNET_DEPLOYER_PRIVATE_KEY,
-  // POLYGON_ZKEVM_MAINNET_URL,
-  // POLYGON_ZKEVM_MAINNET_DEPLOYER_PRIVATE_KEY,
-  // ZK_SCROLL_TESTNET_URL,
-  // ZK_SCROLL_TESTNET_DEVELOPER_PRIVATE_KEY,
-  // ZK_SCROLL_MAINNET_URL,
-  // ZK_SCROLL_MAINNET_DEVELOPER_PRIVATE_KEY,
+  ETH_SEPOLIA_URL,
+  ETH_SEPOLIA_DEPLOYER_PRIVATE_KEY,
 } = process.env;
 
 // This is a sample Hardhat task. To learn how to create your own go to
@@ -59,11 +49,17 @@ const config: HardhatUserConfig = {
     hardhat: {
       chainId: 1337,
     },
-    polygon_testnet: {
+    mumbai: {
       url: POLYGON_TESTNET_URL,
       chainId: 80001,
       gasPrice: 20000000000,
       accounts: [`0x${POLYGON_TESTNET_DEPLOYER_PRIVATE_KEY}`],
+    },
+    eth_sepolia: {
+      url: ETH_SEPOLIA_URL,
+      chainId: 11155111,
+      gasPrice: 20000000000,
+      accounts: [`0x${ETH_SEPOLIA_DEPLOYER_PRIVATE_KEY}`],
     },
     polygon_mainnet: {
       url: POLYGON_MAINNET_URL,

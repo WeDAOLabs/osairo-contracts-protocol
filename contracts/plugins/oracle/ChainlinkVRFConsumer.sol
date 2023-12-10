@@ -2,13 +2,13 @@
 // An example of a consumer contract that relies on a subscription for funding.
 pragma solidity ^0.8.21;
 
-import "hardhat/console.sol";
-
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/vrf/VRFConsumerBaseV2.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 
-contract ChainlinkVRFConsumer is VRFConsumerBaseV2, Ownable {
+contract ChainlinkVRFConsumer is VRFConsumerBaseV2, AccessControlEnumerable {
+    bytes32 public constant USER_ROLE = keccak256("USER_ROLE");
+
     VRFCoordinatorV2Interface immutable COORDINATOR;
 
     // Your subscription ID.
@@ -35,12 +35,10 @@ contract ChainlinkVRFConsumer is VRFConsumerBaseV2, Ownable {
     // The default is 3, but you can set this higher.
     uint16 constant REQUEST_CONFIRMATIONS = 3;
 
-    mapping(uint256 => uint256[]) s_requestIdToRandomWords;
+    mapping(uint256 => uint256[]) _sRequestIdToRandomWords;
 
-    uint256 public s_requestId;
-
+    event RequestVRFComplete(uint256 requestId);
     event ReturnedRandomness(uint256[] randomWords);
-    event RequestComplete(uint256 requestId);
 
     constructor(
         uint64 subscriptionId,
@@ -50,23 +48,35 @@ contract ChainlinkVRFConsumer is VRFConsumerBaseV2, Ownable {
         COORDINATOR = VRFCoordinatorV2Interface(vrfCoordinator);
         s_keyHash = keyHash;
         s_subscriptionId = subscriptionId;
+
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(USER_ROLE, msg.sender);
     }
 
     /*
      * @notice Requests randomness
      * Assumes the subscription is funded sufficiently; "Words" refers to unit of data in Computer Science
      */
-    function requestRandomWords() external onlyOwner {
+    function requestRandomWords(
+        uint32 numWords
+    ) external onlyRole(USER_ROLE) returns (uint256) {
+        require(
+            numWords > 0 && numWords <= NUM_WORDS,
+            "number words exceeds limit."
+        );
+
         // Will revert if subscription is not set and funded.
-        s_requestId = COORDINATOR.requestRandomWords(
+        uint256 requestId = COORDINATOR.requestRandomWords(
             s_keyHash,
             s_subscriptionId,
             REQUEST_CONFIRMATIONS,
             CALLBACK_GAS_LIMIT,
-            NUM_WORDS
+            numWords
         );
 
-        emit RequestComplete(s_requestId);
+        emit RequestVRFComplete(requestId);
+
+        return requestId;
     }
 
     /*
@@ -79,13 +89,13 @@ contract ChainlinkVRFConsumer is VRFConsumerBaseV2, Ownable {
         uint256 requestId,
         uint256[] memory randomWords
     ) internal override {
-        s_requestIdToRandomWords[requestId] = randomWords;
+        _sRequestIdToRandomWords[requestId] = randomWords;
         emit ReturnedRandomness(randomWords);
     }
 
     function getRandomWords(
         uint256 requestId
-    ) public view onlyOwner returns (uint256[] memory) {
-        return s_requestIdToRandomWords[requestId];
+    ) public view onlyRole(USER_ROLE) returns (uint256[] memory) {
+        return _sRequestIdToRandomWords[requestId];
     }
 }
