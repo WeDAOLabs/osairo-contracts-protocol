@@ -4,10 +4,15 @@ pragma solidity 0.8.21;
 import {CCIPReceiver} from "@chainlink/contracts-ccip/src/v0.8/ccip/applications/CCIPReceiver.sol";
 import {Client} from "@chainlink/contracts-ccip/src/v0.8/ccip/libraries/Client.sol";
 import {IRouterClient} from "@chainlink/contracts-ccip/src/v0.8/ccip/interfaces/IRouterClient.sol";
+import {LinkTokenInterface} from "@chainlink/contracts/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
 import "./IOsairoLandTileDynamicNFT.sol";
 
 contract LandTileNFTMintDestination is CCIPReceiver {
-    IOsairoLandTileDynamicNFT iOLTNft;
+    IOsairoLandTileDynamicNFT private iOLTNft;
+
+    LinkTokenInterface private s_linkToken;
+
+    error NotEnoughBalance(uint256 currentBalance, uint256 calculatedFees);
 
     enum NFTOperation {
         Mint,
@@ -22,8 +27,13 @@ contract LandTileNFTMintDestination is CCIPReceiver {
         uint256 tokenId
     );
 
-    constructor(address router, address nftAddress) CCIPReceiver(router) {
+    constructor(
+        address router,
+        address nftAddress,
+        address _link
+    ) CCIPReceiver(router) {
         iOLTNft = IOsairoLandTileDynamicNFT(nftAddress);
+        s_linkToken = LinkTokenInterface(_link);
     }
 
     function _ccipReceive(
@@ -124,8 +134,18 @@ contract LandTileNFTMintDestination is CCIPReceiver {
             data: data,
             tokenAmounts: new Client.EVMTokenAmount[](0),
             extraArgs: "",
-            feeToken: address(0)
+            feeToken: address(s_linkToken)
         });
+
+        uint256 fee = IRouterClient(i_router).getFee(
+            sourceChainSelector,
+            messageReply
+        );
+
+        if (fee > s_linkToken.balanceOf(address(this)))
+            revert NotEnoughBalance(s_linkToken.balanceOf(address(this)), fee);
+
+        s_linkToken.approve(address(i_router), fee);
 
         IRouterClient(i_router).ccipSend(sourceChainSelector, messageReply);
     }
