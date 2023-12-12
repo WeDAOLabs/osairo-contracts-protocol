@@ -3,7 +3,7 @@ import hre, { ethers } from "hardhat";
 const FuncConfig = {
   sepolia: {
     nftName: "OsairoIslandTileDynamicNFT",
-    ccipDest: "0xb2c3b4f90e69158ca8AB4703e8Da15b24De1cb36",
+    ccipDest: "",
     nft: "0x3DD4D684D9Cf5fa144CC310C186761E3CD6FC0E8",
   },
   default: {

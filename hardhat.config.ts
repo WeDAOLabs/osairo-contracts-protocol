@@ -22,6 +22,9 @@ const {
   ARBITRUM_MAINNET_DEPLOYER_PRIVATE_KEY,
   ETH_SEPOLIA_URL,
   ETH_SEPOLIA_DEPLOYER_PRIVATE_KEY,
+  BSC_TESTNET_URL,
+  BSC_TESTNET_DEPLOYER_PRIVATE_KEY,
+  BSC_TESTNET_DEPLOYER_UPGRADE_MULTISIG_ADDRESS,
 } = process.env;
 
 // This is a sample Hardhat task. To learn how to create your own go to
@@ -60,6 +63,12 @@ const config: HardhatUserConfig = {
       chainId: 11155111,
       gasPrice: 20000000000,
       accounts: [`0x${ETH_SEPOLIA_DEPLOYER_PRIVATE_KEY}`],
+    },
+    bsc_testnet: {
+      url: BSC_TESTNET_URL,
+      chainId: 97,
+      gasPrice: 20000000000,
+      accounts: [`0x${BSC_TESTNET_DEPLOYER_PRIVATE_KEY}`],
     },
     polygon_mainnet: {
       url: POLYGON_MAINNET_URL,
