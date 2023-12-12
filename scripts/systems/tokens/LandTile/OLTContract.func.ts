@@ -7,9 +7,9 @@ const FuncConfig = {
     nft: "0x3DD4D684D9Cf5fa144CC310C186761E3CD6FC0E8",
   },
   bsc_testnet: {
-    nftName: "",
+    nftName: "OsairoIslandTileDynamicNFT",
     ccipDest: "",
-    nft: "",
+    nft: "0x41E7bD6256F8Ff51966a7FDCDbe93585e5315BfA",
   },
   default: {
     nftName: "OsairoIslandTileDynamicNFT",
@@ -40,7 +40,11 @@ let config;
 async function main() {
   const network = hre.network.config;
   config =
-    network.chainId === 11155111 ? FuncConfig.sepolia : FuncConfig.default;
+    network.chainId === 11155111
+      ? FuncConfig.sepolia
+      : network.chainId === 97
+      ? FuncConfig.bsc_testnet
+      : FuncConfig.default;
 
   if (
     !config ||

@@ -4,7 +4,6 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 
-// 0x3DD4D684D9Cf5fa144CC310C186761E3CD6FC0E8
 import { EonDeploy } from "../../../deploy/eon-deploy.class";
 import hre, { ethers } from "hardhat";
 
@@ -15,9 +14,9 @@ const DeployConfig = {
     nft: "0x3DD4D684D9Cf5fa144CC310C186761E3CD6FC0E8",
   },
   bsc_testnet: {
-    subId: "",
-    coordinateAddress: "",
-    nft: "",
+    subId: "3255",
+    coordinateAddress: "0x6a2aad07396b36fe02a22b33cf443582f682c82f",
+    nft: "0x41E7bD6256F8Ff51966a7FDCDbe93585e5315BfA",
   },
   mumbai: {
     subId: "6622",
@@ -38,6 +37,8 @@ async function main() {
       ? DeployConfig.mumbai
       : network.chainId === 11155111
       ? DeployConfig.sepolia
+      : network.chainId === 97
+      ? DeployConfig.bsc_testnet
       : DeployConfig.default;
 
   if (!params || params.subId === "" || params.coordinateAddress === "") {

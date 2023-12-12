@@ -15,12 +15,14 @@ const DeployConfig = {
     selfAddress: "",
   },
   bsc_testnet: {
-    router: "",
-    nft: "",
-    linkAddress: "",
-    selfAddress: "",
+    chainSelector: 13264668187771770619,
+    router: "0xe1053ae1857476f36a3c62580ff9b016e8ee8f6f",
+    nft: "0x41E7bD6256F8Ff51966a7FDCDbe93585e5315BfA",
+    linkAddress: "0x84b9B910527Ad5C03A9Ca831909E21e236EA7b06",
+    selfAddress: "0x3619D5Dde38f3C7688EC59db39eFb2e08A7dD23f",
   },
   mumbai: {
+    chainSelector: 12532609583862916517,
     router: "0x1035cabc275068e0f4b745a29cedf38e13af41b1",
     nft: "",
     linkAddress: "",
@@ -39,11 +41,15 @@ const DeployConfig = {
  */
 async function main() {
   const network = hre.network.config;
-  if (network.chainId !== 11155111) {
+  let params: any = null;
+  if (network.chainId === 11155111) {
+    params = DeployConfig.sepolia;
+  } else if (network.chainId === 97) {
+    params = DeployConfig.bsc_testnet;
+  }
+  if (!params) {
     throw new Error("wrong net.");
   }
-
-  const params = DeployConfig.sepolia;
 
   if (
     !params ||
