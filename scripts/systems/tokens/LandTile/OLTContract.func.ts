@@ -6,6 +6,11 @@ const FuncConfig = {
     ccipDest: "",
     nft: "0x3DD4D684D9Cf5fa144CC310C186761E3CD6FC0E8",
   },
+  bsc_testnet: {
+    nftName: "",
+    ccipDest: "",
+    nft: "",
+  },
   default: {
     nftName: "OsairoIslandTileDynamicNFT",
     ccipDest: "",

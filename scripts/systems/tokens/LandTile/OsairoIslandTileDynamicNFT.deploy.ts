@@ -14,6 +14,11 @@ const DeployConfig = {
     coordinateAddress: "0x8103b0a8a00be2ddc778e6e7eaa21791cd364625",
     nft: "0x3DD4D684D9Cf5fa144CC310C186761E3CD6FC0E8",
   },
+  bsc_testnet: {
+    subId: "",
+    coordinateAddress: "",
+    nft: "",
+  },
   mumbai: {
     subId: "6622",
     coordinateAddress: "0x7a1bac17ccc5b313516c5e16fb24f7659aa5ebed",

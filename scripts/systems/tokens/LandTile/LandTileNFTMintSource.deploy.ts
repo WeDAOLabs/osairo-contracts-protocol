@@ -13,6 +13,11 @@ const DeployConfig = {
     link: "0x779877A7B0D9E8603169DdbD7836e478b4624789",
     selfAddress: "",
   },
+  bsc_testnet: {
+    router: "",
+    link: "",
+    selfAddress: "",
+  },
   mumbai: {
     router: "0x1035cabc275068e0f4b745a29cedf38e13af41b1",
     link: "0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
