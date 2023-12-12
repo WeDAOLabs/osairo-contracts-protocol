@@ -8,7 +8,7 @@ const FuncConfig = {
   },
   bsc_testnet: {
     nftName: "OsairoIslandTileDynamicNFT",
-    ccipDest: "",
+    ccipDest: "0x3619D5Dde38f3C7688EC59db39eFb2e08A7dD23f",
     nft: "0x41E7bD6256F8Ff51966a7FDCDbe93585e5315BfA",
   },
   default: {
@@ -33,6 +33,8 @@ async function grantRole() {
     config.ccipDest
   );
   const receipt = await tx.wait();
+  console.log("ccipDest: ", config.ccipDest);
+  console.log("nft: ", config.nft);
   console.log("Grant role ", "done!");
 }
 
