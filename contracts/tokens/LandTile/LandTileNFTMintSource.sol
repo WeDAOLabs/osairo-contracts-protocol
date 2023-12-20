@@ -54,7 +54,7 @@ contract LandTileNFTMintSource is CCIPReceiver {
                     NFTOperation.Mint,
                     abi.encodeWithSignature("mintLandTile(address)", msg.sender)
                 ),
-                PayFeesIn.Native
+                PayFeesIn.LINK
             );
     }
 
@@ -67,7 +67,7 @@ contract LandTileNFTMintSource is CCIPReceiver {
             destinationChainSelector,
             receiver,
             abi.encode(NFTOperation.TokenUri, abi.encode(tokenId)),
-            PayFeesIn.Native
+            PayFeesIn.LINK
         );
     }
 
@@ -79,7 +79,7 @@ contract LandTileNFTMintSource is CCIPReceiver {
             destinationChainSelector,
             receiver,
             abi.encode(NFTOperation.BalanceOf, abi.encode(msg.sender)),
-            PayFeesIn.Native
+            PayFeesIn.LINK
         );
     }
 
@@ -93,7 +93,7 @@ contract LandTileNFTMintSource is CCIPReceiver {
             destinationChainSelector,
             receiver,
             abi.encode(NFTOperation.TokenList, abi.encode(index, pageCount)),
-            PayFeesIn.Native
+            PayFeesIn.LINK
         );
     }
 

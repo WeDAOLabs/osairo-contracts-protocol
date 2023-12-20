@@ -134,19 +134,19 @@ contract LandTileNFTMintDestination is CCIPReceiver {
             data: data,
             tokenAmounts: new Client.EVMTokenAmount[](0),
             extraArgs: "",
-            // feeToken: address(s_linkToken)
-            feeToken: address(0)
+            feeToken: address(s_linkToken)
+            // feeToken: address(0)
         });
 
-        // uint256 fee = IRouterClient(i_router).getFee(
-        //     sourceChainSelector,
-        //     messageReply
-        // );
+        uint256 fee = IRouterClient(i_router).getFee(
+            sourceChainSelector,
+            messageReply
+        );
 
-        // if (fee > s_linkToken.balanceOf(address(this)))
-        //     revert NotEnoughBalance(s_linkToken.balanceOf(address(this)), fee);
+        if (fee > s_linkToken.balanceOf(address(this)))
+            revert NotEnoughBalance(s_linkToken.balanceOf(address(this)), fee);
 
-        // s_linkToken.approve(address(i_router), fee);
+        s_linkToken.approve(address(i_router), fee);
 
         IRouterClient(i_router).ccipSend(sourceChainSelector, messageReply);
     }
