@@ -49,6 +49,12 @@ contract LandTileNFTMintDestination is CCIPReceiver {
 
         if (operation == NFTOperation.Mint) {
             _mintNft(messageId, sender, data, sourceChainSelector);
+        } else if (operation == NFTOperation.BalanceOf) {
+            _balanceOf(sender, data, sourceChainSelector);
+        } else if (operation == NFTOperation.TokenUri) {
+            _tokenUri(sender, data, sourceChainSelector);
+        } else if (operation == NFTOperation.TokenList) {
+            _tokenList(sender, data, sourceChainSelector);
         }
     }
 
