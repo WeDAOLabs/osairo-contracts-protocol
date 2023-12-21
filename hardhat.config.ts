@@ -24,7 +24,10 @@ const {
   ETH_SEPOLIA_DEPLOYER_PRIVATE_KEY,
   BSC_TESTNET_URL,
   BSC_TESTNET_DEPLOYER_PRIVATE_KEY,
-  BSC_TESTNET_DEPLOYER_UPGRADE_MULTISIG_ADDRESS,
+  SCROLL_SEPOLIA_TESTNET_URL,
+  SCROLL_SEPOLIA_TESTNET_DEPLOYER_PRIVATE_KEY,
+  AVALANCHE_FUJI_TESTNET_URL,
+  AVALANCHE_FUJI_TESTNET_DEPLOYER_PRIVATE_KEY,
 } = process.env;
 
 // This is a sample Hardhat task. To learn how to create your own go to
@@ -84,35 +87,16 @@ const config: HardhatUserConfig = {
       url: ARBITRUM_MAINNET_URL,
       accounts: [`0x${ARBITRUM_MAINNET_DEPLOYER_PRIVATE_KEY}`],
     },
-    // zksync_era_testnet: {
-    //   url: ZKSYNC_ERA_TESTNET_URL,
-    //   chainId: 280,
-    //   accounts: [`0x${ZKSYNC_ERA_TESTNET_DEPLOYER_PRIVATE_KEY}`],
-    // },
-    // zksync_era_mainnet: {
-    //   url: ZKSYNC_ERA_MAINNET_URL,
-    //   accounts: [`0x${ZKSYNC_ERA_MAINNET_DEPLOYER_PRIVATE_KEY}`],
-    // },
-    // polygon_zkevm_testnet: {
-    //   url: POLYGON_ZKEVM_TESTNET_URL,
-    //   chainId: 1442,
-    //   accounts: [`0x${POLYGON_ZKEVM_TESTNET_DEPLOYER_PRIVATE_KEY}`],
-    // },
-    // polygon_zkevm_mainnet: {
-    //   url: POLYGON_ZKEVM_MAINNET_URL,
-    //   chainId: 1101,
-    //   accounts: [`0x${POLYGON_ZKEVM_MAINNET_DEPLOYER_PRIVATE_KEY}`],
-    // },
-    // zk_scroll_testnet: {
-    //   url: ZK_SCROLL_TESTNET_URL,
-    //   chainId: 534351,
-    //   accounts: [`0x${ZK_SCROLL_TESTNET_DEVELOPER_PRIVATE_KEY}`],
-    // },
-    // zk_scroll_mainnet: {
-    //   url: ZK_SCROLL_MAINNET_URL,
-    //   chainId: 534352,
-    //   accounts: [`0x${ZK_SCROLL_MAINNET_DEVELOPER_PRIVATE_KEY}`],
-    // },
+    scroll_sepolia: {
+      url: SCROLL_SEPOLIA_TESTNET_URL,
+      chainId: 534351,
+      accounts: [`0x${SCROLL_SEPOLIA_TESTNET_DEPLOYER_PRIVATE_KEY}`],
+    },
+    avalanche_fuji: {
+      url: AVALANCHE_FUJI_TESTNET_URL,
+      chainId: 43113,
+      accounts: [`0x${AVALANCHE_FUJI_TESTNET_DEPLOYER_PRIVATE_KEY}`],
+    },
   },
   mocha: {
     timeout: 10 * 60 * 1000,

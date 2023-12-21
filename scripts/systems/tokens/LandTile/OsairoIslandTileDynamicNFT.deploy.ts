@@ -18,6 +18,11 @@ const DeployConfig = {
     coordinateAddress: "0x6a2aad07396b36fe02a22b33cf443582f682c82f",
     nft: "0x41E7bD6256F8Ff51966a7FDCDbe93585e5315BfA",
   },
+  scroll_sepolia: {
+    subId: "",
+    coordinateAddress: "",
+    nft: "",
+  },
   mumbai: {
     subId: "6622",
     coordinateAddress: "0x7a1bac17ccc5b313516c5e16fb24f7659aa5ebed",
