@@ -18,9 +18,9 @@ const DeployConfig = {
     coordinateAddress: "0x6a2aad07396b36fe02a22b33cf443582f682c82f",
     nft: "0x41E7bD6256F8Ff51966a7FDCDbe93585e5315BfA",
   },
-  scroll_sepolia: {
-    subId: "",
-    coordinateAddress: "",
+  avalanche_fuji: {
+    subId: "882",
+    coordinateAddress: "0x2ed832ba664535e5886b75d64c46eb9a228c2610",
     nft: "",
   },
   mumbai: {
@@ -42,7 +42,7 @@ async function main() {
       ? DeployConfig.mumbai
       : network.chainId === 11155111
       ? DeployConfig.sepolia
-      : network.chainId === 97
+      : network.chainId === 43113
       ? DeployConfig.bsc_testnet
       : DeployConfig.default;
 
