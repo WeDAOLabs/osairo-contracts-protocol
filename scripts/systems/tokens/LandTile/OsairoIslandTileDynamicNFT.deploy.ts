@@ -21,7 +21,7 @@ const DeployConfig = {
   avalanche_fuji: {
     subId: "882",
     coordinateAddress: "0x2ed832ba664535e5886b75d64c46eb9a228c2610",
-    nft: "",
+    nft: "0x41E7bD6256F8Ff51966a7FDCDbe93585e5315BfA",
   },
   mumbai: {
     subId: "6622",
