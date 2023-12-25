@@ -60,7 +60,7 @@ describe("ContractCall", function () {
       "ContractCallDest"
     );
     contractD = await upgrades.deployProxy(ContractCallDest, [
-      contractF.address,
+      contractDynamic.address,
     ]);
     await contractD.deployed();
 
@@ -73,10 +73,12 @@ describe("ContractCall", function () {
     expect(contract).is.not.null;
     expect(contractD).is.not.null;
     expect(contractF).is.not.null;
+    expect(contractDynamic).is.not.null;
 
     console.log("src", contract.address);
     console.log("dest", contractD.address);
     console.log("final", contractF.address);
+    console.log("dynamic nft", contractDynamic.address);
   });
 
   it("call mint from src", async () => {
