@@ -1,11 +1,11 @@
 {
-  "manifestVersion": "0.0.1",
   "OsairoIslandTileDynamicNFT": {
     "contractName": "OsairoIslandTileDynamicNFT",
-    "address": "0x9Cd45EBE41199a7d61cFaA4EAAC9afd1974e5916"
+    "address": "0x776B872Cc018c202f1f7fDF708cFe76D7Bd7344e"
   },
+  "manifestVersion": "0.0.1",
   "LandTileNFTMintDestination": {
     "contractName": "LandTileNFTMintDestination",
-    "address": "0x47A3057c70caE04D2b16F9C8397854E68B0a9D5b"
+    "address": "0xF4835Ac317963533cb881C72356372916D94deA3"
   }
 }

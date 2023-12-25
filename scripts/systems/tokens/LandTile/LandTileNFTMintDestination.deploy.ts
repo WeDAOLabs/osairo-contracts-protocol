@@ -24,9 +24,9 @@ const DeployConfig = {
   avalanche_fuji: {
     chainSelector: "14767482510784806043",
     router: "0xf694e193200268f9a4868e4aa017a0118c9a8177",
-    nft: "0x9Cd45EBE41199a7d61cFaA4EAAC9afd1974e5916",
+    nft: "0x776B872Cc018c202f1f7fDF708cFe76D7Bd7344e",
     linkAddress: "0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846",
-    selfAddress: "0x47A3057c70caE04D2b16F9C8397854E68B0a9D5b",
+    selfAddress: "0xF4835Ac317963533cb881C72356372916D94deA3",
   },
   mumbai: {
     chainSelector: "12532609583862916517",
@@ -52,7 +52,7 @@ async function main() {
   if (network.chainId === 11155111) {
     params = DeployConfig.sepolia;
   } else if (network.chainId === 43113) {
-    params = DeployConfig.bsc_testnet;
+    params = DeployConfig.avalanche_fuji;
   }
   if (!params) {
     throw new Error("wrong net.");

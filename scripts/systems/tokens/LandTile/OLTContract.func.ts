@@ -13,8 +13,8 @@ const FuncConfig = {
   },
   avalanche_fuji: {
     nftName: "OsairoIslandTileDynamicNFT",
-    ccipDest: "",
-    nft: "",
+    ccipDest: "0xF4835Ac317963533cb881C72356372916D94deA3",
+    nft: "0x776B872Cc018c202f1f7fDF708cFe76D7Bd7344e",
   },
   default: {
     nftName: "OsairoIslandTileDynamicNFT",
@@ -50,7 +50,7 @@ async function main() {
     network.chainId === 11155111
       ? FuncConfig.sepolia
       : network.chainId === 43113
-      ? FuncConfig.bsc_testnet
+      ? FuncConfig.avalanche_fuji
       : FuncConfig.default;
 
   if (

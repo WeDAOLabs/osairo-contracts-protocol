@@ -21,7 +21,7 @@ const DeployConfig = {
   avalanche_fuji: {
     subId: "882",
     coordinateAddress: "0x2ed832ba664535e5886b75d64c46eb9a228c2610",
-    nft: "0x41E7bD6256F8Ff51966a7FDCDbe93585e5315BfA",
+    nft: "0x776B872Cc018c202f1f7fDF708cFe76D7Bd7344e",
   },
   mumbai: {
     subId: "6622",
@@ -43,7 +43,7 @@ async function main() {
       : network.chainId === 11155111
       ? DeployConfig.sepolia
       : network.chainId === 43113
-      ? DeployConfig.bsc_testnet
+      ? DeployConfig.avalanche_fuji
       : DeployConfig.default;
 
   if (!params || params.subId === "" || params.coordinateAddress === "") {
