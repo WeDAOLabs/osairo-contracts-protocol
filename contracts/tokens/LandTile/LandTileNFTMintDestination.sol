@@ -58,6 +58,10 @@ contract LandTileNFTMintDestination is CCIPReceiver {
         }
     }
 
+    function setLandNFTAddress(address _landNFTaddress) public {
+        iOLTNft = IOsairoLandTileDynamicNFT(_landNFTaddress);
+    }
+
     function _mintNft(
         bytes32 messageId,
         address sender,

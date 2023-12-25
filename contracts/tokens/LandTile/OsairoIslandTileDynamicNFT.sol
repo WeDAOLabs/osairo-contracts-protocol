@@ -152,9 +152,7 @@ contract OsairoIslandTileDynamicNFT is
         return requestId;
     }
 
-    function mintLandTile(
-        address to
-    ) public onlyRole(MINTER_ROLE) returns (uint256) {
+    function mintLandTile(address to) public returns (uint256) {
         uint256 requestId = requestRandomWords(NUM_WORDS);
 
         uint256 tokenId = _tokenIdTracker.current() + 1;

@@ -24,9 +24,9 @@ const DeployConfig = {
   avalanche_fuji: {
     chainSelector: "14767482510784806043",
     router: "0xf694e193200268f9a4868e4aa017a0118c9a8177",
-    nft: "0x41E7bD6256F8Ff51966a7FDCDbe93585e5315BfA",
+    nft: "0x9Cd45EBE41199a7d61cFaA4EAAC9afd1974e5916",
     linkAddress: "0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846",
-    selfAddress: "0x3619D5Dde38f3C7688EC59db39eFb2e08A7dD23f",
+    selfAddress: "0x47A3057c70caE04D2b16F9C8397854E68B0a9D5b",
   },
   mumbai: {
     chainSelector: "12532609583862916517",
