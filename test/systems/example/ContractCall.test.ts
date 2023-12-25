@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Contract } from "ethers";
+import { BigNumber, Contract } from "ethers";
 import { ethers, upgrades } from "hardhat";
 
 describe("ContractCall", function () {
@@ -44,7 +44,10 @@ describe("ContractCall", function () {
     );
     await contractDynamic.deployed();
 
-    await mockCoordinatorContract.addConsumer(s_currentSubId, contract.address);
+    await mockCoordinatorContract.addConsumer(
+      s_currentSubId,
+      contractDynamic.address
+    );
   };
 
   beforeEach(async () => {
@@ -82,9 +85,40 @@ describe("ContractCall", function () {
   });
 
   it("call mint from src", async () => {
+    const tokenId = 1;
     const [owner, signer2] = await ethers.getSigners();
     await expect(contract.connect(owner).mintNft())
       .to.emit(contract, "MintCompleted")
-      .withArgs(owner.address, 1);
+      .withArgs(owner.address, tokenId);
+
+    await mockCoordinatorContract.fulfillRandomWords(
+      tokenId,
+      contractDynamic.address
+    );
+
+    let tileType = 0;
+    for (let i = 0; i < 10; i++) {
+      const property = await contractDynamic.randomProperty(tokenId, i);
+      if (i === 0) {
+        tileType = property.mod(BigNumber.from("9"));
+      }
+      console.log(`property ${i}:`, property);
+    }
+
+    const balance = await contractDynamic.balanceOf(owner.address);
+    expect(balance).to.equal(1);
+
+    const tokenUri = await contractDynamic.connect(owner).tokenURI(tokenId);
+    expect(tokenUri).to.be.a("string");
+
+    const base64Data = tokenUri.split(",")[1];
+    let decodedData = null;
+    try {
+      const decodedBytes = ethers.utils.base64.decode(base64Data);
+      decodedData = JSON.parse(ethers.utils.toUtf8String(decodedBytes));
+      console.log("tokenUri", decodedData);
+    } catch (error) {
+      expect(false).to.be.true;
+    }
   });
 });
