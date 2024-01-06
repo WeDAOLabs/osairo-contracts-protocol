@@ -11,7 +11,7 @@ describe("FarmToken", function () {
     await contract.deployed();
   });
   it("FarmToken test", async () => {
-    // expect(contract).to.be.instanceOf(Contract);
+    expect(contract).to.be.instanceOf(Contract);
     expect(await contract.name()).to.equal("FarmToken");
     expect(await contract.symbol()).to.equal("FT");
   });
