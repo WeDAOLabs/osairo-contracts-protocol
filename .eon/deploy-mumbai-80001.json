@@ -3,5 +3,9 @@
     "contractName": "LandTileNFTMintSource",
     "address": "0xA1ffAeA7129a817D38AcA5b0a1B76dBE37Ee5360"
   },
-  "manifestVersion": "0.0.1"
+  "manifestVersion": "0.0.1",
+  "OsairoIslandToken": {
+    "contractName": "OsairoIslandToken",
+    "address": "0xAD0e7Cc6eBDfaE32C230E738e98dC1a100F7e63d"
+  }
 }
